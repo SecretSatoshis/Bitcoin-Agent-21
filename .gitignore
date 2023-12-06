@@ -11,6 +11,9 @@ __pycache__/
 .upm/
 replit.nix
 replit_zip_error_log.txt
+.breakpoints
+poetry.lock
+pyproject.toml
 
 # Dependency directories
 .env
