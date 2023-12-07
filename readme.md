@@ -1,4 +1,4 @@
-Agent 21 Newsletter Writer
+# Agent 21 Newsletter Writer
 
 ## Description
 Agent 21 is an advanced tool designed for creating specialized Bitcoin newsletters. It leverages AI agents to analyze market and on-chain data to generate insightful and data-driven reports. The tool offers two main types of reports: Difficulty Adjustment Reports and Weekly Market Updates.
