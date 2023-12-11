@@ -4,6 +4,7 @@ import pandas as pd
 urls = {
     "difficulty_summary": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/difficulty_table.csv',
     "performance": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
+    "historical_performance": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
     "fundamentals": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/fundamentals_table.csv',
     "price_valuation": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/valuation_table.csv',
     "onchain_valuation": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/valuation_table.csv',
@@ -50,7 +51,7 @@ The market valuation of Bitcoin is currently at [Marketcap] billion, with each B
 
 Guiding Questions:
 
-What investment perspectives does the percentage change in price and hashrate over this difficulty period imply about bitcoin miners vs bitcoin investors ?
+What investment insisghts does the percentage change in price and hashrate over this difficulty period imply about the sentiment and market actions of bitcoin miners vs bitcoin investors ?
 
     """.format(table_string)
 
@@ -73,7 +74,7 @@ Please generate a report section using the template and data provided. As you st
 3. Refrain from adding any conclusions or deviating from the provided script in any way.
 4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
 
-Section Goal: Provide a comparative analysis of Bitcoin's historical performance against other notable asset classes and indexes.This comparison offers a context for Bitcoin's standing and trajectory relative to traditional markets. Helping aid investors confidence in holding bitcoin vs other asset classes and puts bitcoins performance in context of macro markets.
+Section Goal: Provide a comparative analysis of Bitcoin's difficulty period performance against other notable asset classes and indexes.This comparison offers a context for Bitcoin's standing and trajectory relative to traditional markets. Helping aid investors confidence in holding bitcoin vs other asset classes and puts bitcoins performance in context of macro markets.
 
 Data:
 {}
@@ -90,6 +91,33 @@ How does Bitcoin's difficulty period performance compare to the other traditiona
 What was the best performing Difficulty Period Return in the table during this difficulty period?
 What was the worst performing Difficulty Period Return in the table during this difficulty period?
 What insights can we learn from the Bitcoin difficulty period return vs these other traditional markets during this difficulty period?
+    """.format(table_string,table_string)
+
+  return template
+
+# Create Performance Report Content
+def generate_historical_performance_prompt(data_path):
+  # Read the data from the CSV file
+  df = pd.read_csv(data_path)
+
+  # Convert the dataframe to a formatted string
+  table_string = df.to_string(index=False)
+
+  # Construct the template with the table data appended
+  template = """
+Please generate a report section using the template and data provided. As you structure the narrative:
+
+1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
+2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
+3. Refrain from adding any conclusions or deviating from the provided script in any way.
+4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
+
+Section Goal: Provide a comparative analysis of Bitcoin's historical performance against other notable asset classes and indexes.This comparison offers a context for Bitcoin's standing and trajectory relative to traditional markets. Helping aid investors confidence in holding bitcoin vs other asset classes and puts bitcoins performance in context of macro markets.
+
+Data:
+{}
+
+----- Template Start -----
 
 Historical Performance
 
@@ -101,11 +129,6 @@ How does the month-to-date (MTD) and 90-day return of Bitcoin compare to its yea
 How does bitcoins YTD return compare to its historical 4 Year CAGR? Are we above below or on trend from historical growth perspective? How does bitcoins 4 year CAGR compare to other assets?
 How does Bitcoin's performance over different time frames compare to other assets in the table?
 How can investors leverage the data in the performance table to understand bitcoins price performance better and make more informed investment decisions?
-
-Ensure all the data is correct in the output by double checking agaisnt the data one more time:
-
-Data:
-{}
     """.format(table_string,table_string)
 
   return template
@@ -160,7 +183,7 @@ How does the 1+ year supply percentage reflect the long-term investment outlook 
 
   return template
 
-# Create Price Valuation Report Content Pt1
+# Create Price Valuation Report Content 
 def generate_price_valuation_prompt(data_path):
   # Read the data from the CSV file
   df = pd.read_csv(data_path)
@@ -192,7 +215,7 @@ For those looking for entry and exit points, the buy target is set at 0.7 times 
     """.format(table_string)
   return template
 
-# Create Price Valuation Report Content Pt1
+# Create Price On-Chain Valuation Report Content
 def generate_onchain_valuation_prompt(data_path):
   # Read the data from the CSV file
   df = pd.read_csv(data_path)
@@ -219,22 +242,21 @@ On-Chain Valuation Models
 Shifting our focus to on-chain models, we're about to delve into the heart of Bitcoin – its blockchain data. These metrics give us direct insights into transactional demand, on-chain cost basis, and network revenue, serving as a gauage of Bitcoin's intrinsic value.
 
 NVT Price Model: Transactional Demand
-The NVT Price model juxtaposes Bitcoin's market capitalization with its on-chain transaction volume, offering a real-time pulse on its value relative to transactional activity. Currently, the model price stands at [NVT Price], [Insight on Network Value vs. Transactional Activity].
+The NVT Price model juxtaposes Bitcoin's market capitalization with its on-chain transaction volume, offering a real-time pulse on its value relative to transactional activity. Currently, the model price stands at [NVT Price], with the model sell target set at [NVT Price Sell Target], which infers a [NVT Price % To Sell Target] percentage move to the models sell target. [Insight on Network Value vs. Transactional Activity].
 
 Realized Price Model: On-Chain Cost Basis
-Representing a historical lens, this model reflects the average price at which all bitcoins were last moved. Currently valued at [Realized Price], [Insight on Market Sentiment and Historical Realized Cost Basis].
+Representing a historical lens, this model reflects the average price at which all bitcoins were last moved. Currently valued at [Realized Price], with the model sell target set at [Realized Price Sell Target], which infers a [Realized Price % To Sell Target] percentage move to the models sell target. [Insight on Market Sentiment and Historical Realized Cost Basis].
 
 ThermoCap Price Model: Network Revenue
-By contrasting Bitcoin's market capitalization with the cumulative mining revenue, the ThermoCap Price model highlights the economic value of network security. The model's current value is [ThermoCap Model Price], [Insight on Network's Security and Economic Value based on miner revenue].
+By contrasting Bitcoin's market capitalization with the cumulative mining revenue, the ThermoCap Price model highlights the economic value of network security. The model's current value is [ThermoCap Model Price], with the model sell target set at [ThermoCap Model Sell Target], which infers a [ThermoCap Model % To Sell Target] percentage move to the models sell target. [Insight on Network's Security and Economic Value based on miner revenue].
 
 Stock-to-Flow (S/F) Model: Scarcity Value
-The Stock-to-Flow model, emphasizing Bitcoin's scarcity, relates its price to the asset's scarcity. The model's ongoing valuation is [S/F Model Price], [Insight on Bitcoin's Scarcity and Value Proposition].
-
+The Stock-to-Flow model, emphasizing Bitcoin's scarcity, relates its price to the asset's scarcity. The model's ongoing valuation is [S/F Model Price], with the model sell target set at [S/F Model Sell Target], which infers a [S/F Model % To Sell Target] percentage move to the models sell target. [Insight on Bitcoin's Scarcity and Value Proposition].
     """.format(table_string)
 
   return template
 
-# Create Relative Valuation Report Content Pt2
+# Create Relative Valuation Report Content
 def generate_relative_valuation_prompt(data_path):
   # Read the data from the CSV file
   df = pd.read_csv(data_path)
@@ -258,27 +280,26 @@ Data:
 
 Relative Valuation Models
 
-In the vast landscape of investment assets, it's crucial to position Bitcoin within a comparative framework. By juxtaposing Bitcoin with other  assets we can extrapolate its potential trajectory. Allow me to guide you through this comparative lens.
+In the vast landscape of investment assets, it's crucial to position Bitcoin within a comparative framework. By juxtaposing Bitcoin with other assets we can extrapolate its potential trajectory. Allow me to guide you through this comparative lens.
 
 Silver's Legacy:
-Bitcoin stands presently at [Bitcoin Price]. Projecting its trajectory to possibly mirror the market cap of all mined silver in the next decade, our model presents a Bull Case price of [Silver Market Cap Model Price]. This model, assumes a 95% probability of bitcoin surpassing Silvers Market Cap in 10 years. Setting our sights on a Sell Target—where Bitcoin's valuation resonates with silver's market cap—it's pegged at [Silver Market Cap Sell Target], a [Silver Market Cap % To Sell Target] difference from the prevailing Bitcoin price.
+Bitcoin stands presently at [Bitcoin Price]. Projecting its trajectory to possibly mirror the market cap of all mined silver in the next decade, our model presents a Sell Target at [Silver Market Cap Sell Target], a [Silver Market Cap % To Sell Target] difference from the prevailing Bitcoin price.
 
 The Monarch's Money – UK M0:
-When we juxtapose Bitcoin with the UK's entire monetary base (M0), we can compare bitcoin to a historical global reserve currency. Given a 65% probability of bitcoin surpassing the UK's monetary base in 10 years, our Bull Case model price is [UK M0 Price Model Price]. The Sell Target, which aligns Bitcoin's value with the UK's M0, is positioned at [UK M0 Price Sell Target], a difference of [UK M0 Price% To Sell Target].
+When we juxtapose Bitcoin with the UK's entire monetary base (M0), we can compare bitcoin to a historical global reserve currency. The Sell Target, which aligns Bitcoin's value with the UK's M0, is positioned at [UK M0 Price Sell Target], a difference of [UK M0 Price% To Sell Target].
 
 Tech Titan – Apple's Market Cap:
-Drawing a parallel between Bitcoin and Apple's market capitalization provides another lens of analysis. With a 55% likelihood of Bitcoin reaching Apples market cap within a decade, our model suggests a Bull Case price of [Apple Market Cap Model Price]. The  Sell Target, symbolizing Bitcoin's potential parity with Apple's market cap, stands at [Apple Market Cap Sell Target], marking a [Apple Market Cap % To Sell Target] difference.
+Drawing a parallel between Bitcoin and Apple's market capitalization provides another lens of analysis. The  Sell Target, symbolizing Bitcoin's potential parity with Apple's market cap, stands at [Apple Market Cap Sell Target], marking a [Apple Market Cap % To Sell Target] difference.
 
 Dollar Dominance – US M0 Money Supply:
-Comparing Bitcoin with the US's monetary base (M0) reveals bitcoins potential to rival the leading fiat currency. With a 35% likelihood of Bitcoin equating this  market cap in a decade, the Bull Case model price is [US M0 Price Model Price]. The Sell Target, where Bitcoin meets the US M0 in value, is discerned at [US M0 Price Sell Target], with a [US M0 Price % To Sell Target] gap.
+Comparing Bitcoin with the US's monetary base (M0) reveals bitcoins potential to rival the leading fiat currency. The Sell Target, where Bitcoin meets the US M0 in value, is discerned at [US M0 Price Sell Target], with a [US M0 Price % To Sell Target] gap.
 
 The Golden Standard:
-Gold, an age-old store of value, offers a significant benchmark. Envisioning Bitcoin to parallel the market cap of all mined gold in a decade, the Bull Case price, grounded in a 20% probability, is [Gold Market Cap Model Price]. The Sell Target, marking Bitcoin's potential gold equivalence, is pegged at [Gold Market Cap Sell Target], a [Gold Market Cap % To Sell Target] variance.
+Gold, an age-old store of value, offers a significant benchmark. Envisioning Bitcoin to parallel the market cap of all mined gold in a decade, the Sell Target, marking Bitcoin's potential gold equivalence, is pegged at [Gold Market Cap Sell Target], a [Gold Market Cap % To Sell Target] variance.
 
 Guiding Questions:
 How do the relative valuation models assist in understanding Bitcoin's growth trajectory and adoption cycle?
 What insights can investors glean from these comparisons to formulate investment strategies?
-
     """.format(table_string)
 
   return template
@@ -326,6 +347,7 @@ Rewriten Content:
 prompt_functions = {
     "difficulty_summary": generate_difficulty_summary_prompt,
     "performance": generate_performance_prompt,
+    "historical_performance": generate_historical_performance_prompt,
     "fundamentals": generate_fundamentals_prompt,
     "price_valuation": generate_price_valuation_prompt,
     "onchain_valuation": generate_onchain_valuation_prompt,
@@ -357,7 +379,40 @@ disclaimer_template = f"""
 
 Agent 21 GitHub | Report Data
 
-The Difficulty Adjustment Report gives a foundational view of the Bitcoin market, aligning with the Bitcoin network's difficulty adjustments. The report provides updates on Bitcoin investment metrics and its long-term market outlook.
+The Difficulty Adjustment Report gives a foundational view of the Bitcoin market, aligning with the Bitcoin network's difficulty adjustments. The report provides updates on Bitcoin on-chain metrics and its long-term market outlook.
+"""
+
+# Intro Discalimer Template Section
+executive_summary = f"""
+Market Trends and Performance: Uncover the latest shifts and performance indicators in the Bitcoin market, showcasing its performance in the broader financial landscape.
+
+Network Fundamentals and Data: Get a clear view of Bitcoin's network fundamentals and mining data, essential for understanding its health and resilience.
+
+Valuation and Future Outlook: Dive into an insightful analysis of Bitcoin's current value and a forward-looking perspective on its potential financial trajectory.
+"""
+# Conclusion Template Section
+instagram_template = """
+Given the full Difficulty Adjustment Report, I'd like to generate concise, engaging marketing copy for my instagram post.
+
+Your task is to extract key insights from the report and present them in a format similar to the example provided. Each point should include the same  emoji in the template, the same category title, and then a new short compelling statement that reflects the latest data. The copy should be structured as follows:
+
+- Example Format: 
+👾 Network Dynamics: Bitcoin's +5.07% difficulty adjustment signals a resilient, growing mining sector. 
+🌐 On-Chain Activity: Despite slight dips, transaction volumes remain robust at $5.49 Billion. 
+🔍 Valuation Insight: Bitcoin's current $37,482 price suggests significant growth potential.
+
+Please ensure that:
+1. The insights are accurate and reflect the latest data in the report.
+2. The format is consistent with the provided example.
+3. The language is clear, engaging, and suitable for marketing purposes.
+
+Data:
+{}
+
+Template:
+👾 Network Dynamics: 
+🌐 On-Chain Activity:
+🔍 Valuation Insight:
 """
 
 def generate_full_report(chat_llm_chain):
@@ -370,6 +425,7 @@ def generate_full_report(chat_llm_chain):
   Agent 21, as we conclude this comprehensive analysis, I'd like you to distill the essence of each section into a coherent conclusion. The objective is to capture the key insights, findings, and recommendations from each section to provide our readers with a concise and actionable summary of the entire report. Use your expertise to bring together the various elements, highlighting the overarching narrative and the transformative potential of Bitcoin. Here are the summaries of each section:
   - Difficulty Adjustment Summary: {sections['difficulty_summary']}
   - Performance: {sections['performance']}
+  - Historical Performance: {sections['historical_performance']}
   - Fundamentals: {sections['fundamentals']}
   - Price Valuation: {sections['price_valuation']}
   - On-chain Valuation: {sections['onchain_valuation']}
@@ -385,18 +441,19 @@ def generate_full_report(chat_llm_chain):
   # Generate the conclusion and executive summary
   conclusion = chat_llm_chain.predict(human_input=conclusion_input_template.format(sections=sections))
   
-  # Executive Summary Template Section
-  executive_summary_input_template =f"""
-  Agent 21, as we conclude this comprehensive analysis, I'd like you to distill the essence of each difficulty adjustment report section into an executive summary. The objective is to capture the key insights, findings, and recommendations from each difficulty adjustment report section to provide our readers with a concise and actionable summary of the entire report. Use your expertise to bring together the various elements, highlighting the overarching difficulty adjustment report. This output should be in short 5 bullet format one setence each. Here are the summaries of each section:
-  {conclusion}
-  """
-  
-  # Generate the executive summary
-  executive_summary = chat_llm_chain.predict(human_input=executive_summary_input_template.format(conclusion=conclusion))
-
   # Compile the full report
   full_report = disclaimer_template + executive_summary + "\n".join(sections.values()) + "\n" + conclusion + signature_template
+  instagram_post = chat_llm_chain.predict(human_input=instagram_template.format(full_report))
+  
+  # Append Instagram post content to the full report
+  full_report = full_report + "\n\nInstagram Post Content:\n" + instagram_post
+
   with open('Difficulty Adjustment Report.txt', 'w') as f:
     f.write(full_report)
     print("Report generated successfully!")
   return full_report
+
+
+
+
+

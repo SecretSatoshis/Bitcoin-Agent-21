@@ -108,7 +108,8 @@ Let's see how Bitcoin's performance measured against the broader financial marke
 
 Guiding Questions:
 
-How does Bitcoin's trading week return performance compare across tables VS Crypto, Equities, Macro and Indexes.
+How does Bitcoin's trading week return performance compare across the Crypto and  Equities, tables?
+How does Bitcoin's trading week return performance compare across the Macro and Indexes tables?
 What was the best performing investment during this trading week?
 What insights can we learn from the Bitcoin trading week return vs these other traditional markets, crypto markets and bitcoin related equities during this trading week?
     """.format(table_string)
@@ -256,9 +257,10 @@ Please generate a report section using the template and data provided. As you st
 Data:
 {}
 
-For refrence in the template below the report date is [Todays Date] use this info combined with the data to formulate the rest of the narrative template.
 
 ----- Template Start -----
+For refrence in the template below the report date is [Todays Date] use this date for the data to formulate the rest of the narrative template using the most recent date as the refrence point.
+
 
 In this section of our Weekly Market Update, we turn to the historical heatmaps, which layer past performance over the present, offering us a spectrum of Bitcoin's historical performance. These maps are not just a record of what has been but a potential guide to what might be, especially when viewed through the lens of average returns for the current month and last week's performance.
 
@@ -428,7 +430,7 @@ def perform_vision_analysis(chat_llm_chain):
           
           Key Elements of the Chart
           OHLC Data Interpretation:
-          Interpret the eq5q provided in the Last Weekly Candle, Support Levels, Resistance levles boxes. These are the key indicators used by agent 21 to understand and interperet the OHLC Weekly Bitcon Chart.
+          Interpret the data provided in the Last Weekly Candle, Support Levels, Resistance levles boxes. These are the key indicators used by agent 21 to understand and interperet the OHLC Weekly Bitcon Chart.
           Analysis: Identify if the current price is near these multiples to predict potential future resistance or support levels, based on historical price behavior. 
           Price vs. 200-Week Moving Average: Determine if the current price is above or below this moving average to infer long-term bullish or bearish trends.
           Comparison with Multiples: Check if the current price is approaching or surpassing any of the multiples of realized price or thermocap, offering clues about potential future market behavior.
@@ -573,12 +575,40 @@ def generate_full_report(chat_llm_chain,news_stories):
   Agent 21, as we conclude this comprehensive analysis, I'd like you to distill the essence of each weekly market summary section into an executive summary. The objective is to capture the key insights, findings, and recommendations from each weekly market summary section to provide our readers with a concise and actionable summary of the entire report. Use your expertise to bring together the various elements, highlighting the overarching weekly market summary. This output should be in short 5 bullet format one setence each. Here are the summaries of each section:
   {conclusion}
   """
+  # Conclusion Template Section
+  instagram_template = """
+  Given the full Weekly Market Update Report, I'd like to generate concise, engaging marketing copy for my instagram post.
 
+  Your task is to extract key insights from the report and present them in a format similar to the example provided. Each point should include the same  emoji in the template, the same category title, and then a new short compelling statement that reflects the latest data. The copy should be structured as follows:
+
+  - Example Format: 
+  📈 Market Dynamics: Bitcoin reaches the $39K-$40K range, showcasing growth amid dynamic market conditions. 
+  🌍 Major Developments: Anticipation builds for SEC's approval of Bitcoin ETFs, alongside impactful exchange regulatory events. 
+  💡 Investment Insights: Bitcoin leads with a 6% weekly return, outperforming traditional assets like gold and government bonds. 
+
+  Please ensure that:
+  1. The insights are accurate and reflect the latest data in the report.
+  2. The format is consistent with the provided example.
+  3. The language is clear, engaging, and suitable for marketing purposes.
+
+  Data:
+  {}
+
+  Template:
+  📈 Market Dynamics: 
+  🌍 OMajor Developments:
+  💡 Investment Insights:
+  """
   # Generate the executive summary
   executive_summary = chat_llm_chain.predict(human_input=executive_summary_input_template.format(conclusion=conclusion))
 
   # Compile the full report
   full_report = disclaimer_template + executive_summary + "\n".join(sections.values()) + "\n" + conclusion + signature_template
+  instagram_post = chat_llm_chain.predict(human_input=instagram_template.format(full_report))
+  
+  # Append Instagram post content to the full report
+  full_report = full_report + "\n\nInstagram Post Content:\n" + instagram_post
+  
   with open('Weekly Market Summary.txt', 'w') as f:
     f.write(full_report)
     print("Report generated successfully!")
