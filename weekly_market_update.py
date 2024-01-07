@@ -108,9 +108,7 @@ Let's see how Bitcoin's performance measured against the broader financial marke
 
 Guiding Questions:
 
-How does Bitcoin's trading week return performance compare across the Crypto and  Equities, tables?
-How does Bitcoin's trading week return performance compare across the Macro and Indexes tables?
-What was the best performing investment during this trading week?
+How does Bitcoin's trading week return performance compare VS Nasdaq, US Dollar Index, Gold, Treasury Index, Commodity Index?
 What insights can we learn from the Bitcoin trading week return vs these other traditional markets, crypto markets and bitcoin related equities during this trading week?
     """.format(table_string)
   return template
@@ -150,9 +148,7 @@ Taking a glance at the historical data, Bitcoin has a month-to date return of [M
 
 Guiding Questions:
 
-How does the trading week return compare to the month-to-date (MTD) cand  year-to-date (YTD) return? What does this tell us about bitcoins short term medium term and long term returns?
-What insights can be derived from the long term comparative performance of Bitcoin against other assets.
-How can investors leverage this data to understand bitcoins price performance better and make more informed investment decisions?
+How does Bitcoins trading week return compare to the month-to-date (MTD) and year-to-date (YTD) return? What does this tell us about bitcoins short term medium term and long term returns?
     """.format(table_string)
   return template
 
@@ -253,7 +249,7 @@ Please generate a report section using the template and data provided. As you st
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
 3. Refrain from adding any conclusions or deviating from the provided script in any way.
 4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-
+5. For refrence in the template below the report date is [Todays Date] use this date for generating the heatmap to formulate the rest of the narrative template using [Todays Date] as the most recent date as the refrence point for heatmap.
 Data:
 {}
 
@@ -265,7 +261,7 @@ For refrence in the template below the report date is [Todays Date] use this dat
 In this section of our Weekly Market Update, we turn to the historical heatmaps, which layer past performance over the present, offering us a spectrum of Bitcoin's historical performance. These maps are not just a record of what has been but a potential guide to what might be, especially when viewed through the lens of average returns for the current month and last week's performance.
 
 Weekly Heatmap Reflection:
-The weekly heatmap for [Todays Date] which is the [Current Week] week of the year showcases [Insert Interpretation of This Week's Performance]. Comparing this to the historical average, we see that Bitcoin has [Outperformed/Underperformed] this week's average return. As we approach next week, historically, the average return for week [Insert Next Week Number] has been [Insert Next Week's Historical Average Return], setting a [Positive/Negative] expectation for the upcoming week.
+The weekly heatmap for [Todays Date] which is the [Current Week Number] week of the year showcases [Insert Interpretation of This Week's Performance]. Comparing this to the historical average, we see that Bitcoin has [Outperformed/Underperformed] this week's average return. As we approach next week, historically, the average return for week [Next Week Number] has been [Next Week Avg Return], setting a [Positive/Negative] expectation for the upcoming week.
 
 Monthly Heatmap Perspective:
 Delving deeper, the monthly heatmap highlights the average return for the current month over previous years. For the month of [Current Month], the average return has been [Current Month's Historical Average Return]. This figure gives us a historical benchmark against which to measure this month's performance. Should the current trend align with or diverge from this average, it provides a [Bullish/Bearish] signal for Bitcoin's short-term trajectory.
@@ -470,6 +466,16 @@ def perform_vision_analysis(chat_llm_chain):
           Market Cycle Phase Determination: Compare the current YOY return with historical data to speculate on Bitcoin's current phase in its market cycle. An increasing YOY return could point to an expansion phase, following the typical pattern of Bitcoin's market cycles.
           Conclusion
           Summarize the findings, focusing on the volatility, long-term growth trend, and current market cycle phase of Bitcoin. This analysis should provide a comprehensive view of Bitcoin's historical performance and offer insights into its potential future movements based on current YOY return and price data on a logarithmic scale.
+          
+          Heres some example output to help you get started:
+          " The most recent weekly candle on the Bitcoin chart shows a notable positive price range, suggesting a strong presence of buyers. The approach towards the 16x thermocap multiple warrants close monitoring for signs of emerging resistance, which could influence market direction. Overall, the market exhibits a positive outlook, with Bitcoin maintaining a bullish trend."
+
+          "The Last Weekly Candle indicates a significant range between the high and low prices, reflecting the market's volatility and the ongoing battle between buyers and sellers.
+
+The chart reveals that Bitcoin's price has been sustained above the 200-week moving average, signaling a long-term bullish outlook. The current price of Bitcoin has not yet reached the significant multiples of the realized price or thermocap, specifically the 3x, 5x, 8x, 16x, and 32x levels. This observation implies that there may be potential for growth before Bitcoin encounters these historically important resistance levels.
+
+In summary, the analysis of the OHLC data, along with Bitcoin's current standing against key multiples and the 200-week moving average, indicates a bullish sentiment in the market. Although the current price has not yet tested the established resistance multiples, the position above the long-term moving average reinforces the confidence in Bitcoin's continued growth potential. For investors, this analysis suggests cautious optimism, with an eye on the development of resistance levels as the market evolves."
+
           """,
           "image_url": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/log_return_yoy.png"
       }
