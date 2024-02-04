@@ -58,13 +58,9 @@ Data:
 Introduction
 Hello Bitcoin Investor,
 
-Welcome to another edition of the "Weekly Market Update". As your trusted Bitcoin Investment Analyst, I am here to guide you through the Bitcoin's market cycle, backed by the latest bitcoin blockchain and market data. Let's delve into the intricacies of the market as of [Report Date]. 
+Welcome to another edition of the "Weekly Market Summary". As your trusted Bitcoin Investment Analyst, I am here to guide you through the Bitcoin's market cycle, backed by the latest bitcoin blockchain and market data. Let's delve into the intricacies of the market as of [Report Date]. 
 
-Guiding Questions:
-
-What is the weekly market update and objective?
-
-Weekly Market Update
+Weekly Market Summary
 Current State of Bitcoin
 On [Report Date], the market capitalization of Bitcoin is currently valued at [Market Cap], with the price per Bitcoin at [Bitcoin Price USD]. This price translates to a value of [Sats per Dollar] satoshis per US dollar. Bitcoin's marketcap dominance of the total cryptocurrency market is [Bitcoin Dominance Percentage]%, underscoring its influential position. Over the last 24 hours, the trading volume has reached [Bitcoin Trading Volume] billion, reflecting its global market trading activity. The prevailing sentiment in the Bitcoin market is [Bitcoin Market Sentiment], with a market trend that is notably [Bitcoin Market Trend]. Currently, Bitcoin's trading status is one that I classify as [Bitcoin Valuation].
 
@@ -104,14 +100,25 @@ Data:
 ----- Template Start ----- 
 
 Comparative Analysis
-Let's see how Bitcoin's performance measured against the broader financial markets. As of [Report Date ] Bitcoin has experienced a trading week return of [Trading Week Return].
+Let's see how Bitcoin's performance measured against the broader financial markets. As of [Report Date ] Bitcoin has experienced a trading week return of [Trading Week Return]. In a dynamic investment landscape, assessing Bitcoin's performance against a diverse array of assets and asset classes is essential to understand its role and relative strength as a potential investment vehicle. This comparison will illuminate Bitcoin's behavior in the context of broader market movements, providing investors with a clearer picture of its position during the trading week.
 
 Guiding Questions:
 
 How does Bitcoin's trading week return performance compare VS Nasdaq, US Dollar Index, Gold, Treasury Index, Commodity Index?
 What insights can we learn from the Bitcoin trading week return vs these other traditional markets, crypto markets and bitcoin related equities during this trading week?
+
+Example of Expected Output, respond with your updated analysis of current data:
+
+In the realm of cryptocurrencies and stocks, Bitcoin has outshined its counterparts with its week-to-date return standing at 6.44%. Ethereum (ETH) and Ripple (XRP) trailed behind with returns of -7.58% and -2.69%, respectively. Bitcoin-related equities also showed mixed performances, with MicroStrategy (MSTR) posting a positive return of 5.17%, while Square (SQ) and Coinbase (COIN) experienced declines of -2.58% and -2.35% respectively.
+
+Turning to the broader indexes and macroeconomic indicators, Bitcoin's performance was robust when compared to traditional financial markets. The Nasdaq Composite saw a modest increase of 0.62%, and the S&P 500 index climbed by 0.84%, both falling short of Bitcoin's impressive gains. Financials, represented by the XLF Financials ETF, were up by 1.42%, and the energy sector, indicated by the XLE Energy ETF, showed a notable increase of 4.70% but still did not surpass Bitcoin's return. The FANG+ ETF, which includes some of the biggest tech giants, had a week-to-date return of 2.46%, indicating a positive week for technology stocks but again not reaching the heights of Bitcoin's performance.
+
+The US Dollar Index, a key benchmark for the international value of the US dollar, had an increment of 0.17%, indicating relative stability in the forex markets. Gold Futures, usually a haven during market uncertainty, experienced a slight dip of 0.08%. The 20+ Year Treasury Bond ETF, a reflection of long-term government debt instruments, decreased by 0.92%, while the Bloomberg Commodity Index, a diversified basket of commodities, grew by 1.94%.
+
+In conclusion, Bitcoin's significant week-to-date return of 6.44% positions it as a standout performer not only within the cryptocurrency space but also across a wide range of traditional asset classes. This week's data suggests that Bitcoin is maintaining its appeal as an investment, potentially offering a higher yield in a week that saw varied performances from other assets and asset classes. Such comparative analysis can reinforce investor confidence in Bitcoin's ability to act as a dynamic component of a diversified investment portfolio.
     """.format(table_string)
   return template
+
 
 # Create Performance Report Pt2
 def generate_price_historical_performance_prompt(data_path):
@@ -179,15 +186,16 @@ Data:
 {}
 
 ----- Template Start -----
-
-As we dissect Bitcoin's market activity, the trading ranges reveal a historical perspective of market behavior.  Bitcoin has traded within the [Current Price Bucket 5k], a band where it has historically traded for [Current Price Bucket 5k Days Count] days. Its present journey within the [Current Price Bucket 1k] has sustained this price level for [Current Price Bucket 1k Days Count] days.
+As we dissect Bitcoin's market activity, the trading ranges reveal a historical perspective of market behavior. Bitcoin is currently navigating the [Current Price Bucket 1k], a range that holds importance both in the narrower 1K range and the broader [Current Price Bucket 5k] range. Over its lifespan, this specific interval has recorded a [interpret based on data: small, moderate, significant] number of trading days, amounting to  [Current Price Bucket 1k] in the 1K range. This activity level is [interpret based on data: an anomaly, typical, indicative] of a [interpret based on data: marginal, noteworthy, pivotal] trend in Bitcoin's trading history.
 
 Guiding Questions:
-Consider how Bitcoin's historical presence within these price ranges may signal underlying patterns in market liquidity and investor behavior.
-What is the next significant price bands Bitcoin faces, and what implications could these thresholds hold as Bitcoin approaches them?
+Based on the historical trading days, what does the data suggest about market liquidity and investor sentiment within these ranges?
+
+Understanding these historical patterns is vital. It informs investors about the regions where Bitcoin might experience greater levels of market scrutiny. Such insights are essential for strategic positioning, as these ranges could dictate the strength of the market's response to Bitcoin's approach, potentially leading to inflection points in price movement.
 """.format(table_string)
 
   return template
+
 
 # Create Market Analysis Report
 def generate_roi_analysis_prompt(data_path):
@@ -398,7 +406,7 @@ Punctuation & Formatting Review:
 1. Examine the content for correct punctuation usage, including commas, periods, semicolons, and quotation marks.
 2. Ensure paragraphs and sentences are of appropriate length, facilitating easy readability.
 3. Confirm that any lists, bullet points, or numbered items are formatted consistently.
-4. Ensure data is formatted consistently for the relevant data type percentages, currency, decimals, including capitalization, formating, and punctuation.
+4. Ensure data is formatted consistently for the relevant data type percentages, currency no decimal value, decimals just to two places, including capitalization, formating, and punctuation.
 
 Original Data:
 {original_data}
@@ -412,73 +420,75 @@ Rewriten Content:
 
 def perform_vision_analysis(chat_llm_chain):
   vision_tasks = [
-      {
-          "prompt": """
-          Please generate a report section using the template and data provided. As you structure the narrative:
+    {
+      "prompt": """
+      Please generate a report section using the template and data provided. As you structure the narrative:
 
-          1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-          2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
-          3. Refrain from adding any conclusions or deviating from the provided script in any way.
-          4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-          ----- Template Start -----
-          Overview
-          The image provided is a weekly Open, High, Low, Close (OHLC) price chart for Bitcoin (BTC). This chart includes several critical technical indicators, aiding in a comprehensive analysis of Bitcoin's market performance.
-          
-          Key Elements of the Chart
-          OHLC Data Interpretation:
-          Interpret the data provided in the Last Weekly Candle, Support Levels, Resistance levles boxes. These are the key indicators used by agent 21 to understand and interperet the OHLC Weekly Bitcon Chart.
-          Analysis: Identify if the current price is near these multiples to predict potential future resistance or support levels, based on historical price behavior. 
-          Price vs. 200-Week Moving Average: Determine if the current price is above or below this moving average to infer long-term bullish or bearish trends.
-          Comparison with Multiples: Check if the current price is approaching or surpassing any of the multiples of realized price or thermocap, offering clues about potential future market behavior.
-          Conclusion
-          Summarize the overall assessment based on the above points, providing a comprehensive overview of Bitcoin's current market status and potential future directions.
-          """,
-          "image_url": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/ohlc_chart.png"
-      },
-      {
-          "prompt": """
-          Please generate a report section using the template and data provided. As you structure the narrative:
+      1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
+      2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
+      3. Refrain from adding any conclusions or deviating from the provided script in any way.
+      4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
+      ----- Template Start -----
+      Overview
+      The chart displays Bitcoin's weekly price dynamics represented through an OHLC (Open, High, Low, Close) format, enriched with multiple technical indicators that provide depth to the market analysis.
 
-          1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-          2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
-          3. Refrain from adding any conclusions or deviating from the provided script in any way.
-          4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-          ----- Template Start -----
-          Overview
-          This template is designed to analyze the Year-Over-Year (YOY) return and Bitcoin price chart, with a focus on a logarithmic scale. This approach is crucial for assets like Bitcoin, which have experienced exponential growth, as it provides a more accurate depiction of relative changes and trends.
-          
-          Key Elements of the Chart
-          YOY Return Analysis:
-          
-          Definition: The percentage change in Bitcoin's price compared to the same date in the previous year.
-          Analysis: Examine the magnitude of YOY return fluctuations to gauge Bitcoin's volatility. Look for patterns or anomalies that could indicate market sentiment shifts or reactions to external factors.
-          Bitcoin Price on Log Scale:
-          
-          Purpose of Log Scale: Makes it easier to compare relative percentage changes and identify long-term trends in exponentially growing data.
-          Analysis: Assess the overall trajectory of Bitcoin's price on the log scale. Look for persistent trends or breaks in patterns that could signal significant market shifts.
-          Cyclical Patterns:
-          
-          Correlation with Halving Events: Check if major price movements align with Bitcoin halving events.
-          Typical Cycle Phases: Identify which phase of the typical market cycle (expansion, consolidation, correction, recovery) Bitcoin might currently be in.
-          Current Data Analysis
-          Volatility Assessment: Review current YOY return data to understand recent market volatility. High volatility could be a reaction to various factors like market sentiment, regulatory news, technological advancements, or macroeconomic conditions.
-          Long-Term Growth Trend: Use the log scale to evaluate Bitcoin's long-term growth trajectory. Despite short-term fluctuations, a general upward trend would indicate sustained market confidence and resilience.
-          Market Cycle Phase Determination: Compare the current YOY return with historical data to speculate on Bitcoin's current phase in its market cycle. An increasing YOY return could point to an expansion phase, following the typical pattern of Bitcoin's market cycles.
-          Conclusion
-          Summarize the findings, focusing on the volatility, long-term growth trend, and current market cycle phase of Bitcoin. This analysis should provide a comprehensive view of Bitcoin's historical performance and offer insights into its potential future movements based on current YOY return and price data on a logarithmic scale.
-          
-          Heres some example output to help you get started:
-          " The most recent weekly candle on the Bitcoin chart shows a notable positive price range, suggesting a strong presence of buyers. The approach towards the 16x thermocap multiple warrants close monitoring for signs of emerging resistance, which could influence market direction. Overall, the market exhibits a positive outlook, with Bitcoin maintaining a bullish trend."
+      Latest Weekly Candle Breakdown:
 
-          "The Last Weekly Candle indicates a significant range between the high and low prices, reflecting the market's volatility and the ongoing battle between buyers and sellers.
+      Opening Price: The week opened at [Insert Opening Price], indicating a start above the key psychological level of [Insert Psychological Level, if applicable].
+      Weekly High: The high reached [Insert Weekly High], potentially testing the resistance level at [Insert Resistance Level, if applicable].
+      Weekly Low: A low of [Insert Weekly Low], which could have tested the previous support zone at [Insert Support Zone, if applicable].
+      Projected Close: A projected close at [Insert Projected Close] could suggest [Insert Interpretation of Market Sentiment] sentiment as the week concludes.
+      Mid-Term Trend Analysis:
+      
+      Over the past five weeks, the price movement has shown a trend that could be described as [Insert Trend Interpretation].
 
-The chart reveals that Bitcoin's price has been sustained above the 200-week moving average, signaling a long-term bullish outlook. The current price of Bitcoin has not yet reached the significant multiples of the realized price or thermocap, specifically the 3x, 5x, 8x, 16x, and 32x levels. This observation implies that there may be potential for growth before Bitcoin encounters these historically important resistance levels.
+      Candlestick Chart Patterns:
+      This week's candlestick formation aligns with a pattern that typically [insert candlestick pattern implication, e.g., 'indicates indecision', 'foreshadows a continuation', 'predicts a reversal', etc.] in market sentiment. Such formations are critical for [insert purpose, e.g., 'timing entry and exit points', 'gauging potential trend reversals', 'setting risk management parameters', etc.].
 
-In summary, the analysis of the OHLC data, along with Bitcoin's current standing against key multiples and the 200-week moving average, indicates a bullish sentiment in the market. Although the current price has not yet tested the established resistance multiples, the position above the long-term moving average reinforces the confidence in Bitcoin's continued growth potential. For investors, this analysis suggests cautious optimism, with an eye on the development of resistance levels as the market evolves."
+      Potential Upside Resistance:
+      
+      Immediate Resistance: The recent high at [Insert Immediate Resistance Price] may act as immediate resistance, along with [Insert Other Resistance Levels] at [Insert Resistance Prices].
+      Consolidation Zones: The area between [Insert Consolidation Zone Range] has acted as a consolidation zone, which might now present resistance.
+      Downside Support:
+      
+      [Insert Moving Average Name]: Currently at [Insert MA Value], this level is considered a significant support level, informed by historical price reactions.
+      Previous Support Zones: Previous lows around [Insert Previous Low Support Zone] have been observed as strong support levels, potentially indicating a floor if retested.
+      
+      On-Chain Indicator Insights:
+      
+      Realized Price & Multiples: Bitcoin's trading above the realized price and its multiples may indicate [Insert Interpretation Based on On-Chain Data].
+      Thermocap Levels: The [Insert Specific Thermocap Level] is traditionally associated with market tops, serving as a key resistance level to watch.
+      
+      Conclusion:
+      
+      Given the current price action and historical price patterns, Bitcoin might display [Insert Interpretation of Market Resilience] with a possibility for [Insert Potential Market Outcome]. The immediate resistance at the recent high of [Insert Immediate Resistance Price] and the reaction around the [Insert Specific Thermocap Level] price are critical for assessing the ongoing market momentum. The support levels, including the [Insert Specific Moving Average] and the realized price, form robust defenses against downturns, with the zone around [Insert Specific Support Zone] acting as a pivotal line against bearish trends."
+      """,
+      "image_url": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/ohlc_chart.png"
+    },
+    {
+      "prompt": """
+      Please write a YOY Price chart analysis  using the chart and data provided. Structure the narrative as follows:
 
-          """,
-          "image_url": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/log_return_yoy.png"
-      }
+      1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
+      2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
+      3. Refrain from adding any conclusions or deviating from the provided script in any way.
+      4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
+      ----- Template Start -----
+      Overview
+      The provided chart with Bitcoin's Year-Over-Year (YOY) return plotted against its price on a logarithmic scale is a vital tool for investors aiming to understand the cyclical nature of Bitcoin's market performance. The logarithmic scale smoothens Bitcoin's exponential price ascension, making the cyclical patterns of return more discernible.
+
+      Investors should note the following cyclical trends evident from the YOY return:
+
+Recurring Peaks and Troughs: The chart exhibits distinct cycles where YOY returns peak followed by periods of retracement. These cycles can be correlated with market sentiment, where peaks often coincide with heightened investor enthusiasm, and troughs may reflect periods of market skepticism or consolidation.
+
+Expansion and Correction Phases: The cycles depicted in the chart can be broken down into phases of expansion, where YOY returns and prices surge, and correction, where they retract. Identifying the start and end of these phases could be critical for investors to time their market entry and exits more effectively.
+
+Historical Cycle Lengths: By observing the duration between the peaks and troughs of YOY returns on the chart, investors can estimate the length of past Bitcoin cycles. Recognizing these patterns can provide insights into the potential timing of future cycles.
+
+The latest data point shows a YOY return of [Insert Latest YOY Return]% at a price of [Insert Latest Bitcoin Price]. When placed in the context of Bitcoin's historical cycles, this point suggests we are in [Insert Interpretation of Market Phase: 'an upturn phase', 'a consolidation phase', etc.]. Comparing the current YOY return to previous cycles can help investors gauge whether we are [Insert Interpretation of Cycle Timing: 'early', 'mid-way', 'late'] in this phase, which is essential for strategizing upcoming investment decisions.
+      """,
+      "image_url": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/log_return_yoy.png"
+    }
   ]
 
   vision_summaries = {}
