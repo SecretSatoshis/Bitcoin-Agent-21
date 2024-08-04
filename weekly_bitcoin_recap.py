@@ -4,7 +4,7 @@ import ai_agent
 # URLs for Data Gathering
 urls = {
     "weekly_market_summary": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_summary.csv',
-    "weekly_ohlc": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_ohlc.csv',
+    #"weekly_ohlc": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_ohlc.csv',
     "historical_performance": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
     "heat_map": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/monthly_heatmap_data.csv',
     #"performance_summary": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
@@ -44,6 +44,11 @@ def weekly_bitcoin_outlook(chat_llm_chain, image):
 Current Price: $[Current Price]  
 Weekly Performance: [Weekly Performance]%  
 Range: Low $[Low Price] | High $[High Price]
+
+Opening Price: The week opened at $[Open]
+Weekly High: The peak was recorded at $[High]
+Weekly Low: The lowest point reached was $[Low]
+Projected Close: The closing price stands at $[Close]
 
 Overview of the Weekly BTC/USD Chart:
 
@@ -231,10 +236,10 @@ Current State Of The Bitcoin Market
 Latest Weekly Candle Breakdown
 The chart displays Bitcoin's weekly price represented through an OHLC (Open, High, Low, Close) format, with annotations that provide structure to the market analysis.
 
-Opening Price: The week commenced at $[Open]
-Weekly High: The peak was recorded at $[Open]
-Weekly Low: The lowest point reached was $[Open]
-Projected Close: The closing value stood at $[Open]
+Opening Price: The week opened at $[Open]
+Weekly High: The peak was recorded at $[High]
+Weekly Low: The lowest point reached was $[Low]
+Projected Close: The closing price stands at $[Close]
 
 ----- Recap of Expectations -----
 To ensure the effectiveness of the narrative:
@@ -674,7 +679,7 @@ Rewriten Content:
 # Mapping URLs to their respective prompt functions
 prompt_functions = {
     "weekly_market_summary": generate_weekly_bitcoin_recap_prompt,
-    "weekly_ohlc": generate_weekly_ohlc_recap_prompt,
+    #"weekly_ohlc": generate_weekly_ohlc_recap_prompt,
     #"performance_summary": generate_performance_prompt,
     "historical_performance": generate_historical_performance_prompt,
     "heat_map": generate_heatmap_prompt,
@@ -717,8 +722,8 @@ Whether you're deep in the Bitcoin world or just starting to explore, the Weekly
 """
 
 # Conclusion Template Section
-instagram_template = """
-Given the full Weekly Bitcoin Recap, I'd like to generate concise, engaging marketing copy for my linkedin post.
+copy_template = """
+Given the full Weekly Bitcoin Recap, I'd like to generate concise, engaging marketing copy for my post.
 
 Your task is to extract key insights from the report and present them in a format similar to the example provided. Each point should follow the template, the same section title, and then a have new short compelling statement that reflects the latest Weekly Bitcoin Recap. The copy should be structured as follows:
 
@@ -784,10 +789,13 @@ Write a one paragraph conclusion summary objectivng the above provide forward lo
   # Generate the conclusion and executive summary
   conclusion = chat_llm_chain.predict(human_input=conclusion_input_template.format(sections=sections))
 
-  # Compile the full report
   full_report = disclaimer_template + "\n".join(sections.values()) + "\n" + conclusion + signature_template
 
+  # Generate the conclusion and executive summary
+  copy_template = chat_llm_chain.predict(human_input=conclusion_input_template.format(full_report))
+  full_report = full_report +copy_template
+  
   with open('Weekly Bitcoin Recap.txt', 'w') as f:
-      f.write(full_report)
+      f.write(full_report )
       print("Report generated successfully!")
   return full_report
