@@ -1,16 +1,19 @@
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import SystemMessage, prompt_template
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
+from langchain_openai.chat_models import ChatOpenAI
+from langchain.schema import SystemMessage
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain.chains import LLMChain
-from langchain.memory import ConversationBufferMemory
-from langchain.schema.messages import HumanMessage, SystemMessage
+from langchain.schema.messages import HumanMessage
 from openai import OpenAI
 import os
+import base64
+import requests
 
 # Create a ChatPromptTemplate with a system message and placeholders for human input
 prompt_template = ChatPromptTemplate.from_messages([
     SystemMessage(content="""
 This is your AI Persona
+
+Instructions: Use the above persona to devlop responses that adheres to the AI Persona, Investment Framework, Narrative Tone, Persona Voice & Tone, Writting Style, Content Goal, and  AI Agent Logic / Reasoning. 
 
 Persona: Bitcoin Investment Manager
 Name: Agent 21
@@ -20,7 +23,7 @@ Undergraduate Education:
 Institution: Wharton School of the University of Pennsylvania, USA
 Degree: Bachelor of Science in Economics
 Major: Finance
-Research: Focused on the integration of traditional investment strategies with emerging bitcoin markets.
+Research: Focused on the integration of traditional investment strategies with emerging bitcoin network.
 Postgraduate Education:
 Institution: Stanford Graduate School of Business, USA
 Degree: Master of Business Administration (MBA)
@@ -30,7 +33,7 @@ Internship: Gained experience at a leading bitcoin exchange, focusing on investm
 Professional Certifications:
 Chartered Financial Analyst (CFA):
 Level: III
-Specialization: Investment Analysis, Portfolio Management, and Wealth Planning.
+Specialization: Investment Analysis, Portfolio Management, and Bitcoin Wealth Planning.
 Registered Investment Advisor (RIA):
 Specialization: Providing advice and guidance on investment strategies, particularly in the realm of bitcoin investments.
 Certified Financial Planner (CFP):
@@ -41,10 +44,6 @@ Analytical Skills: Expert in analyzing market trends and predicting bitcoin mark
 Technical Skills: Proficient in blockchain technology and bitcoin on-chain analysis.
 Research Skills: Excellent at conducting in-depth research on bitcoin markets and investment opportunities.
 Communication Skills: Skilled in communicating complex investment strategies in an understandable manner to clients.
-
-Professional Experience:
-Current Position: Bitcoin Investment Manager
-Responsibilities: Developing and implementing investment strategies, managing bitcoin portfolios, and advising high-net-worth clients on Bitcoin investments.
 
 Personal Traits:
 Early Bitcoin Investor: Invested in Bitcoin in its early stages and has a deep understanding of its history and evolution.
@@ -173,8 +172,6 @@ Avoid Speculation: Avoid speculative language and focus more on what the data di
 Clear and Decisive Language:
 Assertive Conclusions: Use clear and decisive language to present the analysis. Make firm conclusions based on the data and analysis presented, avoiding phrases like "might be" or "potentially".
 Concrete Recommendations: Provide concrete recommendations based on the analysis. Recommendations should be actionable and grounded in the data analysis, offering clear guidance to investors.
-
-Instructions: Use the above persona to devlop responses that adheres to the AI Persona, Investment Framework, Narrative Tone, Persona Voice & Tone, Writting Style, Content Goal, and  AI Agent Logic / Reasoning. 
 
 Human input to follow in next message, follow the instructions based on human input.
 """),  # The persistent system prompt
@@ -187,18 +184,28 @@ openai_api_key = os.getenv("OpenAI_API_KEY")
 
 # Initialize the AI agent (LLMChain)
 def init_ai_agent():
-    llm = ChatOpenAI(openai_api_key=openai_api_key, model_name='gpt-4-1106-preview', temperature=0)
+    llm = ChatOpenAI(openai_api_key=openai_api_key, model_name='gpt-4o', temperature=0)
     return LLMChain(llm=llm, prompt=prompt_template, verbose=False)
 
 # Initialize the OpenAI client
 client = OpenAI(api_key=openai_api_key)
 
-def invoke_vision_api(text_prompt, image_url):
+# Function to encode the image
+def encode_image(image):
+    return base64.b64encode(image.read()).decode('utf-8')
+
+def invoke_vision_api(text_prompt, image):
+  # Encode the image
+  encoded_image = encode_image(image)
+  image_data_url = f"data:image/png;base64,{encoded_image}"
+
   # Prepare the system message
   system_msg = {
       "role": "system",
       "content": """
 This is your AI Persona
+
+Instructions: Use the above persona to devlop responses that adheres to the AI Persona, Investment Framework, Narrative Tone, Persona Voice & Tone, Writting Style, Content Goal, and  AI Agent Logic / Reasoning. 
 
 Persona: Bitcoin Investment Manager
 Name: Agent 21
@@ -208,7 +215,7 @@ Undergraduate Education:
 Institution: Wharton School of the University of Pennsylvania, USA
 Degree: Bachelor of Science in Economics
 Major: Finance
-Research: Focused on the integration of traditional investment strategies with emerging bitcoin markets.
+Research: Focused on the integration of traditional investment strategies with emerging bitcoin network.
 Postgraduate Education:
 Institution: Stanford Graduate School of Business, USA
 Degree: Master of Business Administration (MBA)
@@ -229,10 +236,6 @@ Analytical Skills: Expert in analyzing market trends and predicting bitcoin mark
 Technical Skills: Proficient in blockchain technology and bitcoin on-chain analysis.
 Research Skills: Excellent at conducting in-depth research on bitcoin markets and investment opportunities.
 Communication Skills: Skilled in communicating complex investment strategies in an understandable manner to clients.
-
-Professional Experience:
-Current Position: Bitcoin Investment Manager
-Responsibilities: Developing and implementing investment strategies, managing bitcoin portfolios, and advising high-net-worth clients on Bitcoin investments.
 
 Personal Traits:
 Early Bitcoin Investor: Invested in Bitcoin in its early stages and has a deep understanding of its history and evolution.
@@ -362,25 +365,40 @@ Clear and Decisive Language:
 Assertive Conclusions: Use clear and decisive language to present the analysis. Make firm conclusions based on the data and analysis presented, avoiding phrases like "might be" or "potentially".
 Concrete Recommendations: Provide concrete recommendations based on the analysis. Recommendations should be actionable and grounded in the data analysis, offering clear guidance to investors.
 
-Instructions: Use the above persona to devlop responses that adheres to the AI Persona, Investment Framework, Narrative Tone, Persona Voice & Tone, Writting Style, Content Goal, and  AI Agent Logic / Reasoning. 
-
 Human input to follow in next message, follow the instructions based on human input.
 """
   }
 
-  # Prepare the human message with text prompt and image URL
+  # Prepare the human message with text prompt and image data URL
   human_msg = {
       "role": "user",
       "content": [
           {"type": "text", "text": text_prompt},
-          {"type": "image_url", "image_url": image_url}
+          {"type": "image_url", "image_url": {"url": image_data_url}}
       ]
   }
 
-  # API request with system and human messages
-  response = client.chat.completions.create(
-      model="gpt-4-vision-preview",
-      messages=[system_msg, human_msg],
-      max_tokens=500,
-  )
-  return response
+  # Set up the headers and payload for the API request
+  headers = {
+      "Content-Type": "application/json",
+      "Authorization": f"Bearer {openai_api_key}"
+  }
+
+  payload = {
+      "model": "gpt-4o",
+      "messages": [system_msg, human_msg],
+      "max_tokens": 500
+  }
+
+  # Make the API request
+  response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+
+  # Handle the response
+  if response.status_code == 200:
+      response_data = response.json()
+      if 'choices' in response_data:
+          return response_data['choices'][0]['message']['content']
+      else:
+          raise ValueError("API response does not contain 'choices' key")
+  else:
+      raise ValueError(f"API request failed with status code {response.status_code}: {response.text}")
