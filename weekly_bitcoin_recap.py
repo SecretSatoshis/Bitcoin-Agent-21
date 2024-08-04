@@ -325,6 +325,15 @@ Data:
 
 ----- Template Start -----
 
+Bitcoin’s year-to-date return of [YTD Return]% provides a reference point for the performance of traditional financial indexes and asset classes.
+
+Current Performance Snapshot
+
+  •	Recent 7-Day Return: [7-Day Return]%
+  •	Month-to-Date Return: [Month-to-Date Return]%
+  •	90-Day Growth: [90-Day Growth]%
+  •	Year-to-Date Return: [YTD Return]%
+
 Historical Performance
 
 Taking a glance at the historical data, Bitcoin has a year-to-date return of [YTD Return]. 
