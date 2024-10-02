@@ -3,17 +3,16 @@ import ai_agent
 
 # URLs for Data Gathering
 urls = {
-    "weekly_market_summary": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_summary.csv',
-    #"weekly_ohlc": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_ohlc.csv',
-    "historical_performance": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
-    "heat_map": 'https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/monthly_heatmap_data.csv',
-    #"performance_summary": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv',
-    #"on_chain_fundamentals": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/fundamentals_table.csv',
-    #"price_model": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/model_table.csv',
-    #"relative_valuation": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/model_table.csv',
+    "weekly_market_summary": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/weekly_summary.csv",
+    "historical_performance": "https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/performance_table.csv",
+    "heat_map": "https://secretsatoshis.github.io/Bitcoin-Weekly-Market-Update/monthly_heatmap_data.csv",
+    # "on_chain_fundamentals": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/fundamentals_table.csv',
+    # "price_model": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/model_table.csv',
+    # "relative_valuation": 'https://secretsatoshis.github.io/Bitcoin-Difficulty-Report/model_table.csv',
 }
 
-## Vision API Functions
+## Vision API Functions ---
+
 
 # Function to Analyze Visual Data and Create Report Sections
 def generate_and_edit_vision_content(vision_prompt, image_path, chat_llm_chain):
@@ -26,17 +25,17 @@ def generate_and_edit_vision_content(vision_prompt, image_path, chat_llm_chain):
     edited_vision_output = chat_llm_chain.predict(human_input=edit_prompt)
     return edited_vision_output
 
-# Function to perform vision analysis of bitcoin OHLC chart
-def weekly_bitcoin_outlook(chat_llm_chain, image):
-  vision_tasks = [
-    {
-      "prompt": """
-      Please generate a report section using the template and data provided. As you structure the narrative:
 
-      1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-      2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
-      3. Refrain from adding any conclusions or deviating from the provided script in any way.
-      4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
+# Function to perform vision analysis of bitcoin OHLC chart
+def weekly_bitcoin_outlook(image):
+    vision_tasks = [
+        {
+            "prompt": """
+      Please generate a report using only the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
+
+      1. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the image.
+      2. Refrain from adding any conclusions or deviating from the provided script in any way.
+      3. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
      ----- Template Start -----
 
 ### Market Commentary: Week of [Current Week Date]
@@ -50,17 +49,6 @@ Weekly High: The peak was recorded at $[High]
 Weekly Low: The lowest point reached was $[Low]
 Projected Close: The closing price stands at $[Close]
 
-Overview of the Weekly BTC/USD Chart:
-
-1. Price Movement:
-  This week, Bitcoin [observed movement], with a [change] of [Weekly Performance]%, closing at approximately $[Current Price]. This movement [interpretation based on chart analysis].
-2. **Candlestick Analysis:**
-  The weekly candle shows [candle characteristics], suggesting [interpretation based on candlestick analysis].
-
-### Weekly Outlook
-
-Support and Resistance Level Analysis:
-
 Key Resistance Levels:
 $[Key Resistance Level 1] (e.g., 2021 ATH)
 $[Key Resistance Level 2] (e.g., All-Time High)
@@ -68,17 +56,34 @@ Key Support Levels:
 $[Key Support Level 1] (e.g., 2021 ATH Monthly Close)
 $[Key Support Level 2] (e.g., Bear Case EOY 2024)
 
-Short-Term Outlook:
-
-Given the current market momentum, Bitcoin is likely to [anticipated action] the key support/resistance at $[Key Level]. Holding above/below this level is crucial to [anticipated result]. Conversely, [anticipated action] the $[Key Level] could [anticipated result] towards $[Next Target Level].
-
 ### Year-End Market Outlook
 
 Projected Outcome:
-
 Bear Scenario Likelihood: [Bear Scenario Probability]%
 Base Scenario Likelihood: [Base Scenario Probability]%
 Bull Scenario Likelihood: [Bull Scenario Probability]%
+
+Overview of the Weekly BTC/USD Chart:
+
+1. Price Movement:
+  This week, Bitcoin [observed movement], with a [change] of [Weekly Performance]%, closing at approximately $[Current Price]. This movement [interpretation based on chart analysis].
+2. Candlestick Analysis:
+  The weekly candle shows [candle characteristics], suggesting [interpretation based on candlestick analysis].
+3. Weekly OHLC Price Chart Analysis and Market Commentary:
+Provide a comprehensive analysis of the weekly OHLC (Open, High, Low, Close) chart, integrating the following aspects:
+
+Price Movement:
+Analyze the price movement over the week, highlighting the weekly open, high, low, and close. Discuss how these price points reflect the market’s strength, weakness, or indecision. Mention any significant price levels or trends observed from the chart.
+Support and Resistance Analysis:
+Highlight key support and resistance levels based on the chart data. Explain how these levels influence future price action and whether they represent significant barriers or potential breakouts for price movement in either direction.
+Price Trends and Directionality:
+Assess the current weekly price trend (uptrend, downtrend, or sideways movement) and explain how this fits within the broader market context. Offer insights on potential price directionality based on the weekly OHLC chart, and whether the chart indicates any upcoming shifts in market momentum or trend.
+General Market Commentary:
+Summarize the market’s overall behavior and potential outlook based on the weekly OHLC chart. Discuss how the observed trends, price patterns, and technical factors could affect the positioning of a portfolio manager, with specific insights on managing risk, identifying opportunities, and adjusting strategy as needed.
+
+Short-Term Outlook:
+
+Given the current market momentum, Bitcoin is likely to [anticipated action] the key support/resistance at $[Key Level]. Holding above/below this level is crucial to [anticipated result]. Conversely, [anticipated action] the $[Key Level] could [anticipated result] towards $[Next Target Level].
 
 If current trends persist and Bitcoin [interpreted action], we might see the price [anticipated outcome] the bear case scenario of $[Bear Case Price] by the end of 2024. [Interpreted action] could position Bitcoin to align with the base case scenario of $[Base Case Price] by EOY 2024.For the bullish scenario to materialize, Bitcoin would need to [interpreted action]. This would set the stage for a potential rally towards $[Bull Case Price], supported by [positive market catalysts].
 
@@ -86,39 +91,37 @@ If current trends persist and Bitcoin [interpreted action], we might see the pri
 
 1.Risk Management:
 Understanding the inherent volatility in Bitcoin markets is crucial. Long-term investors should focus on the broader market trends. Short-term fluctuations are common, but maintaining a long-term perspective can help navigate through the volatility.
+
 2. Accumulate on Dips:
 For long-term investors, accumulating Bitcoin during these dips, especially near strong support levels like $[Key Support Level], could be a strategic move, anticipating future bullish movements post-halving.
-
 ----- Template End -----
     """,
-    "image": image
-  }
-]
+            "image": image,
+        }
+    ]
 
-  vision_summaries = {}
-  for task in vision_tasks:
-      vision_output = ai_agent.invoke_vision_api(
-          task["prompt"], 
-          task["image"]
-      )
-      vision_summaries[task["prompt"]] = vision_output
+    vision_summaries = {}
+    for task in vision_tasks:
+        vision_output = ai_agent.invoke_vision_api(task["prompt"], task["image"])
+        vision_summaries[task["prompt"]] = vision_output
 
-  return vision_summaries
+    return vision_summaries
 
-## Free Content Functions
+
+## Free Content Functions ---
+
 
 def generate_news_impact_prompt(news_stories):
-  # Construct the template with the news stories appended
-  template = f"""
-Please generate a report section using the template and data provided. As you structure the narrative:
-0. Follow 
+    # Construct the template with the news stories appended
+    template = f"""
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
+
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
 3. Refrain from adding any conclusions or deviating from the provided script in any way.
 4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
 5. Format the provided news stories into bullet points with the news source name provided in () at the end.
-6. Provide a summary at the end of the news stories, discussing their potential impact on Bitcoin's price and overall adoption in both the short and long term.
-7. Do not put "-" in front of each news story just txt no special formatting needed
+6. Do not put "-" in front of each news story just txt no special formatting needed
 
 News Stories:
 {news_stories}
@@ -135,7 +138,7 @@ News Stories:
 
 News Impact:
 Given the above news stories, the potential impact on Bitcoin's price and overall adoption can be summarized as follows:
-[Provide a bulletpoint summary of the expected bitcoin price impact based on news stories]
+[Provide a summary of the expected bitcoin price impact based on news stories]
 
 Guiding Questions:
 - What cumulative impact could these news stories have on investor sentiment and genreal bitcoin market trends and performance?
@@ -146,40 +149,39 @@ To ensure the effectiveness of the narrative:
 - Focus on clear, coherent reporting without deviations.
 
 """
-  return template
+    return template
+
 
 # Function to generate and edit news contentsection
-def generate_and_edit_news_content(chat_llm_chain,news_stories):
-  # Generate initial prompt with news stories
-  initial_prompt = generate_news_impact_prompt(news_stories)
+def generate_and_edit_news_content(chat_llm_chain, review_llm_chain, news_stories):
+    # Generate initial prompt with news stories
+    initial_prompt = generate_news_impact_prompt(news_stories)
 
-  # Get initial output from the AI model
-  initial_output = chat_llm_chain.predict(human_input=initial_prompt)
+    # Get initial output from the AI model
+    initial_output = chat_llm_chain.predict(human_input=initial_prompt)
 
-  # Run Second Round Edits using the analyze_output function
-  edit_prompt = analyze_output(initial_prompt, initial_output)
-  edited_output = chat_llm_chain.predict(human_input=edit_prompt)
+    # Run Second Round Edits using the analyze_output function
+    edit_prompt = analyze_output(initial_prompt, initial_output)
+    edited_output = review_llm_chain.predict(human_input=edit_prompt)
 
-  return edited_output
+    return edited_output
+
 
 # Create Weekly Bitcoin Recap
 def generate_weekly_bitcoin_recap_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
+    # Read the data from the CSV file
+    df = pd.read_csv(data_path)
 
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
 
-1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
-3. Refrain from adding any conclusions or deviating from the provided script in any way.
-4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-
-Section Goal: Provide an introduction to the weekly bitcoin recap highlighting the ethos behind the report to provide a first principles perspective on where investors are in the bitcoin market cycle. Released every Monday morning, the weekly bitcoin recap provides a timely update on bitcoin market and network metrics providing a short & long term perspective on the bitcoin market and its growth potential and current trajectory.
+1. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
+2. Refrain from adding any conclusions or deviating from the provided script in any way.
+3. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
 
 Data:
 {}
@@ -188,142 +190,40 @@ Data:
 
 Current State Of The Bitcoin Market
 
-On [Report Date], the market capitalization of Bitcoin is currently valued at [Market Cap], with the price per Bitcoin at [Bitcoin Price USD]. This price translates to a value of [Sats per Dollar] satoshis per US dollar. 
+On [Report Date], the market capitalization of Bitcoin is currently valued at [Market Cap], with the price per Bitcoin at [Bitcoin Price USD]. This price translates to a value of [Sats per Dollar] satoshis per US dollar. Satoshis per US Dollar represents the number of satoshis—the smallest unit of Bitcoin—that one US dollar can purchase. 
 
-Satoshis per US Dollar represents the number of satoshis—the smallest unit of Bitcoin—that one US dollar can purchase. This inversion of the usual price perspective not only offers a micro-view of Bitcoin's valuation but also serves as a compelling indicator of the dollar's purchasing power within the realm of digital currency.
+Bitcoin currently holds a [Bitcoin Dominance Percentage]% share of the total cryptocurrency market. This level of dominance [indicates Bitcoin’s growing/receding] influence compared to alternative cryptocurrencies.
 
-Holding a [Bitcoin Dominance Percentage]% share in the total cryptocurrency market's capitalization, Bitcoin asserts its preeminent position. This dominance is indicative of Bitcoin's pivotal role and its unparalleled influence within the digital currency landscape.
+The 24-hour trading volume is [Bitcoin Trading Volume] billion, highlighting the [intensity/moderation] of trading activity.
 
-The 24-hour trading volume, reaching [Bitcoin Trading Volume] billion, underscores the intensive trading activity surrounding Bitcoin on a global scale. It reflects the market's liquidity and showcases the widespread interest in Bitcoin trading, offering insights into the vibrancy of its trading environment.
+Current market sentiment is characterized as [Bitcoin Market Sentiment], with the overall market trend described as [Bitcoin Market Trend].
 
-Current market sentiment towards Bitcoin is described as [Bitcoin Market Sentiment], with a prevailing market trend identified as [Bitcoin Market Trend]. Interpreting these aspects is essential for predicting potential price movements, enabling investors to navigate the market with strategic foresight.
-
-Bitcoin's current market status is classified as [Bitcoin Valuation]. This categorization is instrumental in deciphering Bitcoin's market valuation, guiding investors through the landscape whether Bitcoin appears undervalued, fairly valued, or overvalued based on an array of analytical metrics.
+Bitcoin’s valuation is categorized as [Bitcoin Valuation], suggesting that the market views Bitcoin as [undervalued/fairly valued/overvalued].
 
 ----- Recap of Expectations -----
 To ensure the effectiveness of the narrative:
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
     """.format(table_string)
-  return template
+    return template
 
-# Create Weekly OHLC Recap
-def generate_weekly_ohlc_recap_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
-
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
-
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
-
-1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
-3. Refrain from adding any conclusions or deviating from the provided script in any way.
-4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-
-Section Goal: Provide an introduction to the weekly bitcoin recap highlighting the ethos behind the report to provide a first principles perspective on where investors are in the bitcoin market cycle. Released every Monday morning, the weekly bitcoin recap provides a timely update on bitcoin market and network metrics providing a short & long term perspective on the bitcoin market and its growth potential and current trajectory.
-
-Data:
-{}
-
------ Template Start -----
-
-Current State Of The Bitcoin Market
-
-Latest Weekly Candle Breakdown
-The chart displays Bitcoin's weekly price represented through an OHLC (Open, High, Low, Close) format, with annotations that provide structure to the market analysis.
-
-Opening Price: The week opened at $[Open]
-Weekly High: The peak was recorded at $[High]
-Weekly Low: The lowest point reached was $[Low]
-Projected Close: The closing price stands at $[Close]
-
------ Recap of Expectations -----
-To ensure the effectiveness of the narrative:
-- Strictly follow the provided template structure.
-- Focus on clear, coherent reporting without deviations.
-- Round Prices to have no deciaml places.
-    """.format(table_string)
-  return template
-
-# Create Performance Report Content
-def generate_performance_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
-
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
-
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
-
-1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
-2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
-3. Refrain from adding any conclusions or deviating from the provided script in any way.
-4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-
-Section Goal: Provide a comparative analysis of Bitcoin's 7 day period performance against other notable asset classes and indexes.This comparison offers a context for Bitcoin's standing and trajectory relative to traditional markets. Helping aid investors confidence in holding bitcoin vs other asset classes and puts bitcoins performance in context of macro markets.
-
-Data:
-{}
-
------ Template Start -----
-Comparative Performance Analysis
-
-Let's see how Bitcoin's performance measured against the broader financial markets. As of [Report Date] Bitcoin has experienced a 7 day return of [7 Day Return].
-
-Guiding Questions:
-
------ Response Example Formatting -----
-Follow this example response sturcture for formatting and sentence formatting for your outpput content
-
-Overview: This week, we examine Bitcoin's performance amidst fluctuating global financial markets to gauge its stability and potential as a diversification tool.
-
-Bitcoin's Stability: Over the past seven days, Bitcoin saw a slight decline of -0.76%, showing resilience compared to broader market movements.
-Equities Comparison:
-Nasdaq and S&P 500: With returns close to Bitcoin’s at -0.80% and -0.95% respectively, major equity indices mirrored Bitcoin's slight downturn.
-XLF Financials ETF: This ETF experienced a sharper decline of -1.31%, indicating heavier selling pressure within the financial sector.
-Commodities Surge:
-Bloomberg Commodity Index: It significantly outperformed with a 7-day gain of 3.43%, suggesting a shift by some investors towards commodity assets.
-Gold: Similarly, gold surged by 5.94%, underscoring its role as a safe-haven asset during market volatility.
-Digital Assets and Tech:
-FANG+ and BITQ ETFs: Both sectors faced notable declines, with returns of -1.99% and -10.64% respectively, highlighting increased volatility in high-growth tech and crypto sectors.
-Currency and Bonds:
-US Dollar Index: Showed minor decline (-0.18%), reflecting stability in the currency market.
-TLT Treasury Bond ETF: Recorded a significant drop of -3.41%, possibly driven by shifting interest rate expectations or inflation concerns.
-Conclusion: Despite a modest downtick, Bitcoin’s performance this week suggests it remains a relatively stable asset amidst broader market turbulence. Investors might consider Bitcoin's resilience when evaluating it for portfolio diversification, especially in contrast to the sharper fluctuations seen in tech stocks and other cryptocurrencies.
-
------ Recap of Expectations -----
-To ensure the effectiveness of the narrative:
-- Format all percentages to two decimal places and always use a % following percentage values.
-- Seamlessly integrate all guiding questions.
-- Strictly follow the provided template structure.
-- Focus on clear, coherent reporting without deviations.
-    """.format(table_string,table_string)
-  return template
 
 # Create Performance Report Content
 def generate_historical_performance_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
+    # Read the data from the CSV file
+    df = pd.read_csv(data_path)
 
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
 
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
 3. Refrain from adding any conclusions or deviating from the provided script in any way.
 4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
-
-Section Goal: Provide a comparative analysis of Bitcoin's historical performance against other notable asset classes and indexes.This comparison offers a context for Bitcoin's standing and trajectory relative to traditional markets. Helping aid investors confidence in holding bitcoin vs other asset classes and puts bitcoins performance in context of macro markets.
 
 Data:
 {}
@@ -334,40 +234,23 @@ Bitcoin’s year-to-date return of [YTD Return]% provides a reference point for 
 
 Current Performance Snapshot
 
-  •	Recent 7-Day Return: [7-Day Return]%
-  •	Month-to-Date Return: [Month-to-Date Return]%
-  •	90-Day Growth: [90-Day Growth]%
-  •	Year-to-Date Return: [YTD Return]%
+Recent 7-Day Return: [7-Day Return]%
+Month-to-Date Return: [Month-to-Date Return]%
+90-Day Growth: [90-Day Growth]%
+Year-to-Date Return: [YTD Return]%
 
 Historical Performance
 
 Taking a glance at the historical data, Bitcoin has a year-to-date return of [YTD Return]. 
 
-Compared to traditional financial indexes, Bitcoin’s performance is [intro]. The Nasdaq, with a year-to-date return of [Nasdaq YTD Return]%, and the S&P 500, with [S&P 500 YTD Return]%, have [interpretation]. In the financial and tech sectors, the XLF Financials ETF and the FANG+ ETF have year-to-date returns of [XLF YTD Return]% and [FANG+ ETF YTD Return]%, respectively, which are [interpretation]. Even Gold, a traditional safe-haven asset, has a year-to-date return of [Gold YTD Return]%, but it [interpretation]. This comparison [outcome].
+YTD Performance Comparison:
+Bitcoin’s year-to-date return of [YTD Return]% compared to the Nasdaq (at [Nasdaq YTD Return]%) and the S&P 500 (at [S&P 500 YTD Return]%) offers insight into Bitcoin’s performance relative to the broader equity markets. [Interpretation based on Bitcoin's relative performance to these indexes].
+Sector-Specific ETFs Comparison:
+The returns of sector-focused ETFs like the XLF Financials ETF (at [XLF YTD Return]%), the FANG+ ETF (at [FANG+ ETF YTD Return]%), and the BITQ Crypto Industry ETF (at [BITQ YTD Return]%) give insight into how Bitcoin’s performance compares to both traditional sectors and crypto-related assets. [Interpretation based on Bitcoin's relative performance to these indexes].
+Commodities and Safe-Haven Assets:
+Comparing Bitcoin to Gold (with a YTD return of [Gold YTD Return]%), the Bloomberg Commodity Index (at [Bloomberg Commodity YTD Return]%), the TLT Treasury Index (at [TLT YTD Return]%), and the US Dollar Index (DXY) (at [US Dollar YTD Return]%) highlights its relationship with traditional safe-haven and low-risk assets. [Interpretation based on Bitcoin's relative performance to these indexes].
 
-Guiding Questions:
-
-[Wirte a two sentence summary of the YTD performance of Bitcoin against other asset classes and indexes.
-
-Cover the Nasdaq, S&P 500, XLF Financials ETF, Bloomberg Commodity Index, FANG+ ETF, BITQ Crypto Industry ETF, US Dollar Index, Gold, TLT Treasury Index.]
------ Response Example Formatting -----
-Historical Performance Analysis
-
-Introduction
-Bitcoin's year-to-date return of 57.35% sharply contrasts with the more modest gains seen in traditional indexes and asset classes.
-
-Current Performance Snapshot
-
-Recent 7-Day Return: 0.552%
-Month-to-Date Return: -6.9975%
-90-Day Growth: 56.2651% 
-Year-to-Date Return: 47.35% 
-
-Comparative Market Analysis
-Compared to traditional financial indexes:
-Nasdaq and S&P 500 YTD Returns: At just 1.80% and 4.14% respectively, these traditional markets are significantly trailing behind Bitcoin's impressive growth. FANG+ ETF YTD Return: 15.61%, noteworthy yet still not comparable to Bitcoin’s performance.
-
-This performance comparison not only underscores Bitcoin's potential as a high-growth investment but also illustrates its resilience and capacity to outperform amidst market uncertainties.
+Bitcoin’s [YTD Return]% compared to traditional indexes like the Nasdaq and S&P 500 highlights its [relative performance]. This comparison positions Bitcoin as [interpretation based on growth, diversification, or other factors]. Its returns relative to sector ETFs and safe-haven assets such as Gold [potential insights], which could inform portfolio positioning for [growth/diversification/other considerations].
 
 ----- Recap of Expectations -----
 To ensure the effectiveness of the narrative:
@@ -375,27 +258,28 @@ To ensure the effectiveness of the narrative:
 - Seamlessly integrate all guiding questions.
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
-    """.format(table_string,table_string)
-  return template
+    """.format(table_string, table_string)
+    return template
+
 
 # Create Heatmap Report
 def generate_heatmap_prompt(data_path, report_date):
-  # Read the data from the single CSV file
-  df = pd.read_csv(data_path)
+    # Read the data from the single CSV file
+    df = pd.read_csv(data_path)
 
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
 
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
 3. Refrain from adding any conclusions or deviating from the provided script in any way.
 4. Your focus should be on presenting a clear, coherent narrative that aligns closely with the provided template and data.
 5. For refrence in the template below the report date is [Todays Date] use this date for generating the heatmap to formulate the rest of the narrative template using [Todays Date] as the most recent date as the refrence point for heatmap.
-6. Take into account  [Todays Date] in your analysis so you understand where we are in the progression of time throughout the month and how close we are to the end of the month. Exmaple: If we are at the start of the month then we still have a lot of time to analyze the month ahead through progression of time but if its at the end then we can tell the month is about to end and we can focus on the month ahead / review on month etc.
+6. Take into account [Todays Date] in your analysis so you understand where we are in the progression of time throughout the month and how close we are to the end of the month. Exmaple: If we are at the start of the month then we still have a lot of time to analyze the month ahead through progression of time but if its at the end then we can tell the month is about to end and we can focus on the month ahead / review on month etc.
 Data:
 {}
 
@@ -411,11 +295,11 @@ The Bitcoin performance heatmap is an invaluable tool for visualizing the curren
 Monthly Heatmap Insights
 [Report Date]
 
-Central to our analysis is the monthly heatmap, which analyzes the average return for [Current Month] throughout Bitcoin's history. The average return for this month, historically at [Current Month's Historical Average Return], establishes a benchmark for assessing the current month's performance against long-term patterns.
+Central to our analysis is the monthly heatmap, which analyzes the average return for [Current Month] throughout Bitcoin's history. The average return for this month, historically at [Current Month's Historical Average Return]%, establishes a benchmark for assessing the current month's performance against long-term patterns.
 
 Current Data Interpretation
 
-For the current month of [Current Month], the observed performance is [Current Month's Performance]. When compared with the historical average of [Current Month's Historical Average Return], this performance offers a [Bullish/Bearish] outlook, indicating [Explanation of Current Market Behavior].
+For the current month of [Current Month], the observed performance is [Current Month's Performance]%. When compared with the historical average of [Current Month's Historical Average Return]%, this performance offers a [Bullish/Bearish] outlook, indicating [Explanation of Current Market Behavior].
 
 Market Outlook for the Month
 
@@ -426,19 +310,24 @@ To ensure the effectiveness of the narrative:
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
     """.format(table_string, report_date)
-  return template
+    return template
+
+
+## Premium Report Section ---
+
 
 # Create Fundamentals Report Content
 def generate_fundamentals_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
-  
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Read the data from the CSV file
+    df = pd.read_csv(data_path)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
+
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
+
 0. Put each sentence on a new line 
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
@@ -480,21 +369,20 @@ To ensure the effectiveness of the narrative:
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
     """.format(table_string)
-  return template
+    return template
 
-## Premium Report Section 
 
-# Create Price Model Report Content 
+# Create Price Model Report Content
 def generate_price_model_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
+    # Read the data from the CSV file
+    df = pd.read_csv(data_path)
 
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
 
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
@@ -562,20 +450,21 @@ To ensure the effectiveness of the narrative:
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
     """.format(table_string)
-  
-  return template
+
+    return template
+
 
 # Create Relative Valuation Report Content
 def generate_relative_valuation_prompt(data_path):
-  # Read the data from the CSV file
-  df = pd.read_csv(data_path)
+    # Read the data from the CSV file
+    df = pd.read_csv(data_path)
 
-  # Convert the dataframe to a formatted string
-  table_string = df.to_string(index=False)
+    # Convert the dataframe to a formatted string
+    table_string = df.to_string(index=False)
 
-  # Construct the template with the table data appended
-  template = """
-Please generate a report section using the template and data provided. As you structure the narrative:
+    # Construct the template with the table data appended
+    template = """
+Please generate a report using the template and data provided. Write your reponse tone and narrative like you are writting for an professional bitcion hedge fund portfolio manager / investment advisor. As you structure the narrative:
 
 1. Integrate answers to the guiding questions seamlessly within the narrative without explicitly mentioning the questions. You must answer all questoins asked do not skip any guiding questions. They will be marked by "Guiding Questions:".
 2. Strictly adhere to the provided template, ensuring each section is populated with the correct corresponding data from the table.
@@ -625,7 +514,8 @@ To ensure the effectiveness of the narrative:
 - Strictly follow the provided template structure.
 - Focus on clear, coherent reporting without deviations.
 """.format(table_string)
-  return template
+    return template
+
 
 # Create Edited Report Sections
 def analyze_output(original_data, ai_output):
@@ -676,29 +566,32 @@ Rewriten Content:
 """
     return analysis_prompt
 
+
 # Mapping URLs to their respective prompt functions
 prompt_functions = {
     "weekly_market_summary": generate_weekly_bitcoin_recap_prompt,
-    #"weekly_ohlc": generate_weekly_ohlc_recap_prompt,
-    #"performance_summary": generate_performance_prompt,
     "historical_performance": generate_historical_performance_prompt,
     "heat_map": generate_heatmap_prompt,
-    #"on_chain_fundamentals": generate_fundamentals_prompt,
-    #"price_model": generate_price_model_prompt,
-    #"relative_valuation": generate_relative_valuation_prompt,
+    # "on_chain_fundamentals": generate_fundamentals_prompt,
+    # "price_model": generate_price_model_prompt,
+    # "relative_valuation": generate_relative_valuation_prompt,
 }
 
-# Function to Generate and Edit Content
-def generate_and_edit_content(prompt_url, template_function, chat_llm_chain, report_date=None):
-  if report_date:
-      initial_prompt = template_function(prompt_url, report_date)
-  else:
-      initial_prompt = template_function(prompt_url)
 
-  initial_output = chat_llm_chain.predict(human_input=initial_prompt)
-  edit_prompt = analyze_output(initial_prompt, initial_output)
-  edited_output = chat_llm_chain.predict(human_input=edit_prompt)
-  return edited_output
+# Function to Generate and Edit Content
+def generate_and_edit_content(
+    prompt_url, template_function, chat_llm_chain, review_llm_chain, report_date=None
+):
+    if report_date:
+        initial_prompt = template_function(prompt_url, report_date)
+    else:
+        initial_prompt = template_function(prompt_url)
+
+    initial_output = chat_llm_chain.predict(human_input=initial_prompt)
+    edit_prompt = analyze_output(initial_prompt, initial_output)
+    edited_output = review_llm_chain.predict(human_input=edit_prompt)
+    return edited_output
+
 
 # Closing Signature Section
 signature_template = f""""
@@ -733,11 +626,9 @@ Stay Ahead with the Latest Bitcoin Insights!
 Week X - Weekly Bitcoin Recap: 
 
 Why Subscribe?
-We are now providing our newsletter subscribers with priority access to our Weekly Bitcoin Recap. Don’t miss out—secure the most current insights directly in your inbox!
 
 In This Weekly Bitcoin Recap
-[Insert the latest insights from the Weekly Bitcoin Recap here]
-1 short sentence summary of the findings of this weeks Weekly Bitcoin Recap and the impact it has on bitcoins price]
+[Insert a two sentence summary of the findings of this weeks Weekly Bitcoin Recap and the impact it has on bitcoins price]
 
 👉 Subscribe Now: Join the Secret Satoshis Newsletter: https://lnkd.in/eNiybtuk
 
@@ -752,24 +643,37 @@ Data:
 {}
 """
 
-def generate_full_report(chat_llm_chain, news_stories, report_date, image):
-  sections = {}
 
-  news_impact_content = generate_and_edit_news_content(chat_llm_chain, news_stories)
-  sections['news_impact'] = news_impact_content
+def generate_full_report(
+    chat_llm_chain, review_llm_chain, news_stories, report_date, image
+):
+    sections = {}
 
-  for section, url in urls.items():
-      if section == "heat_map":
-          sections[section] = generate_and_edit_content(url, prompt_functions[section], chat_llm_chain, report_date)
-      else:
-          sections[section] = generate_and_edit_content(url, prompt_functions[section], chat_llm_chain)
+    news_impact_content = generate_and_edit_news_content(
+        chat_llm_chain, review_llm_chain, news_stories
+    )
+    sections["news_impact"] = news_impact_content
 
-  vision_analysis_results = weekly_bitcoin_outlook(chat_llm_chain, image)
-  for prompt, summary in vision_analysis_results.items():
-      sections['weekly_btc_usd'] = summary
+    for section, url in urls.items():
+        if section == "heat_map":
+            sections[section] = generate_and_edit_content(
+                url,
+                prompt_functions[section],
+                chat_llm_chain,
+                review_llm_chain,
+                report_date,
+            )
+        else:
+            sections[section] = generate_and_edit_content(
+                url, prompt_functions[section], chat_llm_chain, review_llm_chain
+            )
 
-  # Conclusion Template Section
-  conclusion_input_template = f"""
+    vision_analysis_results = weekly_bitcoin_outlook(image)
+    for prompt, summary in vision_analysis_results.items():
+        sections["weekly_btc_usd"] = summary
+
+    # Conclusion Template Section
+    conclusion_input_template = f"""
 Agent 21, as we complete this Weekly Bitcoin Recap, I'd like you to summarize the main points of each section into a coherent conclusion summary. 
   
 The objective is to capture the key insights, findings, and recommendations from each section to provide our readers with a concise and actionable summary of the entire Weekly Bitcoin Recap and provide forward looking outlook to help guide them in the weeks ahead in the bitcoin market. 
@@ -783,19 +687,27 @@ Use your expertise to bring together the various sections, highlighting the over
   - Historical Performance: {sections['historical_performance']}
   - Heat Map: {sections['heat_map']}
 
-Write a one paragraph conclusion summary objectivng the above provide forward looking outlook for our subscribers helping guide them in the weeks ahead in the bitcoin market.
+Write a one-paragraph conclusion summarizing the above, providing a forward-looking outlook for our subscribers. Help guide them in the weeks ahead in the Bitcoin market by highlighting key news stories from the prior week and what to watch for moving forward for bitcoins price based on latest market devlopments and performance metrics.
   """
-  
-  # Generate the conclusion and executive summary
-  conclusion = chat_llm_chain.predict(human_input=conclusion_input_template.format(sections=sections))
 
-  full_report = disclaimer_template + "\n".join(sections.values()) + "\n" + conclusion + signature_template
+    # Generate the conclusion and executive summary
+    conclusion = chat_llm_chain.predict(
+        human_input=conclusion_input_template.format(sections=sections)
+    )
 
-  # Generate the conclusion and executive summary
-  copy_template = chat_llm_chain.predict(human_input=conclusion_input_template.format(full_report))
-  full_report = full_report +copy_template
-  
-  with open('Weekly Bitcoin Recap.txt', 'w') as f:
-      f.write(full_report )
-      print("Report generated successfully!")
-  return full_report
+    full_report = (
+        disclaimer_template
+        + "\n".join(sections.values())
+        + "\n"
+        + conclusion
+        + signature_template
+    )
+
+    # Generate the conclusion and executive summary
+    copy_output = chat_llm_chain.predict(human_input=copy_template.format(full_report))
+    full_report = full_report + "\n\n" + copy_output
+
+    with open("Weekly Bitcoin Recap.txt", "w") as f:
+        f.write(full_report)
+        print("Report generated successfully!")
+    return full_report
