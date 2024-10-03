@@ -1,5 +1,7 @@
 import pandas as pd
 import ai_agent
+import requests
+from io import BytesIO  # Required to handle bytes like a file
 
 # URLs for Data Gathering
 urls = {
@@ -491,14 +493,27 @@ The latest data point shows a YOY return of [Insert Latest YOY Return]% at a pri
     }
   ]
 
+  # Iterate over the vision tasks, invoke the vision API for each and collect summaries
   vision_summaries = {}
+    
   for task in vision_tasks:
-      summary = generate_and_edit_vision_content(
-          task["prompt"], 
-          task["image_url"], 
-          chat_llm_chain
-      )
-      vision_summaries[task["prompt"]] = summary
+        try:
+            # Download the image using the image URL
+            response = requests.get(task["image_url"])
+            if response.status_code == 200:
+                # Convert raw image bytes to a file-like object
+                image_file = BytesIO(response.content)
+
+                # Pass the image file to the Vision API
+                vision_output = ai_agent.invoke_vision_api(task["prompt"], image_file)
+                
+                # Store the result
+                vision_summaries[task["prompt"]] = vision_output
+            else:
+                raise Exception(f"Failed to fetch image from {task['image_url']}, status code {response.status_code}")
+
+        except Exception as e:
+            vision_summaries[task["prompt"]] = f"Error processing vision task: {str(e)}"
 
   return vision_summaries
 
