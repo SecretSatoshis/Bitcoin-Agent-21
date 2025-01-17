@@ -1,6 +1,4 @@
 requests
 pandas
-langchain
 openai
-langchain-openai
 streamlit
