@@ -1,96 +1,55 @@
-# Agent 21 Newsletter Writer
+# Bitcoin Agent 21
 
-## Description
-**Agent 21** is a tool designed to generate specialized Bitcoin newsletters by leveraging AI agents for analyzing market data and on-chain metrics. It produces insightful, data-driven reports, with three primary report types:
-1. **Weekly Bitcoin Recap**
-2. **Difficulty Adjustment Report**
-3. **Weekly Market Update**
+This repository contains the code for generating the **Weekly Bitcoin Recap**, a weekly newsletter for the Secret Satoshis community. It provides a focused analysis of Bitcoin's weekly market performance, price trends, on-chain activity, and valuation metrics. 
 
-## Features
-- **User-Friendly Interface**: Built with Streamlit for a simple, intuitive user experience.
-- **Three Report Types**: Generate either a *Difficulty Report*, *Weekly Market Update*, or *Weekly Bitcoin Recap*.
-- **Custom AI Agents**: Uses advanced AI agents (`chat_llm_chain`, `vision_llm_chain`, and `review_llm_chain`) for data processing, visual data analysis, and content editing.
-- **Personalized Input**: Incorporates user-provided news stories and input data into reports.
-- **Data-Driven Insights**: AI-driven analysis using various financial datasets for comprehensive insights.
+## About the Project
+
+The Weekly Bitcoin Recap is created using **Bitcoin Agent 21**, a Bitcoin AI Agent developed by Secret Satoshis. It compiles data from curated Bitcoin datasets and user-provided inputs, such as news stories and Bitcoin price charts, into a structured newsletter. The system uses the **OpenAI Agent API** to streamline content generation and review processes.
+
+### Data Sources
+The newsletter is powered by data from Secret Satoshis github repositories:
+- [Bitcoin Report Library](https://secretsatoshis.github.io/Bitcoin-Report-Library/)
 
 ## Installation and Setup
 
-### 1. Clone the Repository
+### Clone the Repository
 ```bash
-git clone https://github.com/SecretSatoshis/Bitcoin-Agent-21
-cd Bitcoin-Agent-21
+git clone https://github.com/SecretSatoshis/Weekly-Bitcoin-Recap
+cd Weekly-Bitcoin-Recap
 ```
 
-### 2. Install Dependencies
-Ensure that you have Python installed, then run the following command to install all required dependencies:
+### Install Dependencies
+Make sure Python is installed, then run:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure OpenAI API Key
-To run the application, you'll need an OpenAI API key:
-- Sign up at [OpenAI](https://beta.openai.com/signup/) to get an API key.
-- The OpenAI API key is hardcoded in `ai_agent.py`. You need to replace the placeholder key in the following line with your actual OpenAI API key:
-      ```
-      openai_api_key = "your-api-key"
-      ```
+### Configure OpenAI API Key
+Replace the placeholder in the code with your OpenAI API key:
+```python
+client = openai.OpenAI(api_key="your-api-key")
+```
 
 ## Usage
-1. **Launch the Application**
-   Run the application locally using Streamlit:
+
+1. **Run the Application**:
+   Launch the application using Streamlit:
    ```bash
    streamlit run main.py
    ```
 
-2. **Generate Reports**
-   Select the type of report you want to generate (Difficulty Report, Weekly Market Update, or Weekly Bitcoin Recap), enter any required input (e.g., news stories or date), and click "Generate Report".
+2. **Provide Input**:
+   - Add **news stories** relevant to Bitcoin for inclusion in the analysis.
+   - Enter the **report date** for context.
+   - Upload a **Bitcoin price chart** to include technical analysis.
 
-### AI Agent Configuration
+3. **Generate the Report**:
+   Click "Generate Report" to produce the Weekly Bitcoin Recap. The output will be displayed in the app and saved as a `.txt` file.
 
-- **Text Processing** (`chat_llm_chain`): This AI agent generates the textual content of the reports, including market summaries and insights.
-- **Visual Data Analysis** (`vision_llm_chain`): This agent analyzes visual data such as Bitcoin price charts and integrates the analysis into the reports.
-- **Content Review** (`review_llm_chain`): The review agent is responsible for reviewing and refining the generated content to ensure coherence and quality before final output.
+## About Secret Satoshis
 
-## Report Types
-
-### 1. **Difficulty Adjustment Report** (`difficulty_adjustment_report.py`):
-   - Provides an overview of Bitcoin’s mining difficulty and market performance.
-   - Summarizes performance analysis and key on-chain fundamentals.
-
-### 2. **Weekly Market Update** (`weekly_market_update.py`):
-   - A comprehensive summary of Bitcoin’s weekly market activity.
-   - Includes market performance, historical trends, and analysis of the latest news impacts.
-
-### 3. **Weekly Bitcoin Recap** (`weekly_bitcoin_recap.py`):
-   - Focuses on Bitcoin’s weekly trading activity, price movements, and market outlook.
-   - Integrates uploaded charts and visual data into the analysis.
-   - Summarizes key news stories, market sentiment, and provides a forward-looking outlook.
-
-## Workflow Overview
-
-### Data Gathering
-- The application gathers data from external sources such as CSV files hosted on Secret Satoshis and other financial data repositories.
-- This ensures the reports are built using up-to-date market information.
-
-### Report Generation
-- Each section of the report is created using pre-defined templates that ensure consistency and accuracy.
-- Reports are customized based on user inputs (e.g., news stories, dates, images).
-
-### AI-Powered Content Creation and Review
-- **Initial Draft Generation**: The `chat_llm_chain` generates the first draft for each report section.
-- **Content Review**: The `review_llm_chain` is responsible for refining and ensuring the accuracy of the generated content before final output.
-
-### Final Report Compilation
-- All sections are compiled, including news summaries, visual data analysis, performance summaries, and a concluding outlook.
-- The final report is output as a complete document with all relevant insights.
-
-## Data Sources
-- **Bitcoin Difficulty Report**: [Secret Satoshis - Bitcoin Difficulty Report](https://github.com/SecretSatoshis/Bitcoin-Difficulty-Report)
-- **Weekly Market Update**: [Secret Satoshis - Bitcoin Weekly Market Update](https://github.com/SecretSatoshis/Bitcoin-Weekly-Market-Update)
-- **Additional Data Sources**:
-   - Yahoo Finance (for traditional market comparisons)
-   - Coinmetrics (on-chain and market data)
-   - CoinGecko (comprehensive cryptocurrency data)
+The Secret Satoshis platform is dedicated to Bitcoin education and analysis. The Bitcoin Agent 21 tool is part of a larger suite of resources designed to empower the community with actionable Bitcoin insights.
 
 ## License
-This project is licensed under the terms of the **GPLv3** license.
+
+This project is licensed under the **GPLv3 License**. See the [LICENSE](LICENSE) file for details.
