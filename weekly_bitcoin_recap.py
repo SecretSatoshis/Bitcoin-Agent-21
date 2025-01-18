@@ -268,11 +268,11 @@ PROMPT_LIBRARY = {
         MTD Performance Snapshot  
         [report_date]  
 
-        “Bitcoin’s performance for [month_name] currently stands at [Current Month’s Performance]%, compared to the historical average return of [Current Day of Month Historical Average Return]% for this point in the month.”
+        “Bitcoin’s performance for [month_name] currently stands at [Current Month’s Performance]%, compared to the historical median return of [Current Day of Month Historical Median Return]% for this point in the month.”
 
         [dynamic_observation based on deviation and variance in data]  
 
-        Based on historical trends, if Bitcoin follows its average path, the projected end-of-month price would be approximately [Projected Price Based on Average Path].  
+        Based on historical trends, if Bitcoin follows its median path, the projected end-of-month price would be approximately [Projected Price Based on Median Path].  
 
         ---  
 
@@ -280,8 +280,8 @@ PROMPT_LIBRARY = {
 
         Historical data suggests the following potential price outcomes for Bitcoin by the end of [month_name]:  
 
-        Base-Case (Average Historical Performance):  
-        Projected Return: [Current Month's Historical Average Return]% | Projected Price: $[Projected Price Based on Average Path]  
+        Base-Case (Median Historical Performance):  
+        Projected Return: [Current Month's Historical Median Return]% | Projected Price: $[Projected Price Based on Median Path]  
 
         Bull-Case Scenario (Top 25% of Historical Returns):  
         Projected Return: [Top Quartile Return for Month]% | Projected Price: $[Projected Price Based on Top Quartile Path]  
@@ -835,3 +835,4 @@ def generate_full_report(news_stories, report_date, uploaded_image=None):
 
     print("Report Generated Successfully!")
     return full_report
+
