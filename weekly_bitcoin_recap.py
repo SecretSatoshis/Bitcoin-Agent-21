@@ -92,7 +92,9 @@ PROMPT_LIBRARY = {
 
         As of [Report Date], Bitcoin’s circulating supply has reached [Bitcoin Supply] BTC—edging closer to the 21 million cap and reinforcing the narrative of its built-in scarcity.
 
-        Turning to price, a single Bitcoin is currently trading at [Bitcoin Price USD], giving it a total market capitalization of [Bitcoin Marketcap]. At this price, one US Dollar now buys [Sats Per Dollar] satoshis—a reflection of Bitcoin’s evolving purchasing power as adoption continues to grow.
+        Turning to price, a single Bitcoin is currently trading at [Bitcoin Price USD], giving it a total market capitalization of [Bitcoin Marketcap]. 
+        
+        At this price, one US Dollar now buys [Sats Per Dollar] satoshis—a reflection of Bitcoin’s evolving purchasing power as adoption continues to grow.
         
         On-Chain Activity
 
@@ -159,8 +161,8 @@ PROMPT_LIBRARY = {
         Summary  
 
         Bitcoin’s [7 Day Return]% compared to global equities, sector ETFs, macro assets, and Bitcoin-related equities underscores its role as a [growth asset, diversifier, speculative instrument, etc].  
-        - Correlation: Bitcoin’s relationship with [Top Correlated Asset] reflects [risk-on sentiment or alignment with macro trends], while its divergence from [Lowest Correlated Asset] highlights [hedge potential or low correlation benefits].  
-        - Performance: This week’s top performer, [Top Performing Asset Above Bitcoin] (at [Top Performing Asset 7 Day Return]%), exceeded Bitcoin’s return, reinforcing sector strength or macro tailwinds.  
+        
+        Performance: This week’s top performer, [Top Performing Asset Above Bitcoin] (at [Top Performing Asset 7 Day Return]%), exceeded Bitcoin’s return, reinforcing sector strength or macro tailwinds.  
        
         Bitcoin’s position as a [growth outperformer or diversifier, etc] continues to evolve, but its relative performance against correlated assets provides valuable insights into market sentiment.
 
@@ -282,18 +284,9 @@ PROMPT_LIBRARY = {
 
         Base-Case (Median Historical Performance):  
         Projected Return: [Current Month's Historical Median Return]% | Projected Price: $[Projected Price Based on Median Path]  
-
-        Bull-Case Scenario (Top 25% of Historical Returns):  
-        Projected Return: [Top Quartile Return for Month]% | Projected Price: $[Projected Price Based on Top Quartile Path]  
-
-        Bear-Case Scenario (Bottom 25% of Historical Returns):  
-        Projected Return: [Bottom Quartile Return for Month]% | Projected Price: $[Projected Price Based on Bottom Quartile Path]  
-
         ---  
 
         Observations and Outlook  
-
-        Bitcoin is projected to end the month within a range of $[Bottom Quartile Path Price] to $[Top Quartile Path Price], providing a framework to assess deviations from historical patterns.  
         
         As we conclude this week’s analysis, Bitcoin’s performance of [current_monthly_return]% [exceeds/tracks in line with/falls below] the historical average of [historical_monthly_average_return]% for this point in the month, offering valuable insight into its current momentum.
 
@@ -321,39 +314,29 @@ PROMPT_LIBRARY = {
         - Analyze the weekly candlestick pattern to assess price direction, market sentiment, and potential trend reversals or continuations.
         - Identify and document key support and resistance levels observed on the chart. Discuss interactions with these levels (breakouts, rejections, etc.).
         - Provide insights on price movement, noting if the price trended higher, lower, or consolidated.
-        - Mention interactions with trendlines (bullish/bearish) and long-term moving averages. Note if Bitcoin’s price aligns with or diverges from major technical levels.
-        - Discuss the significance of psychological price barriers and their role in influencing market sentiment.
         - Outline the likelihood of potential bullish, base, and bearish price scenarios based on observed price action and the proximity to major technical levels.
         - Avoid speculative predictions and ensure commentary remains data-driven. Clearly state observations without assuming future outcomes.
 
         """,
         "template": """
 
-        Complete this newsletter section template with the provided data as reference. Return the completed template response only.
-
         ----- Template Start -----
 
-        ## Template notes ## Complete the [placeholder] based on the data provided in the chart
+        ## Overview of the Weekly BTC/USD Tradingview Chart Image:
 
-        Overview of the Weekly BTC/USD Chart:
+        This week, Bitcoin [movement type: consolidated, rallied, declined] within a [trend direction: defined range, upward momentum, downtrend], posting a [weekly performance]% return and closing at $[closing price]. The price movement reflects [market sentiment: indecision, accumulation, profit-taking] near key resistance levels, with [specific technical patterns, such as failed breakouts or strong rejections] shaping the weekly action.
+        
+        Bitcoin opened the week at $[open price], reached a high of $[high price], and tested a low of $[low price] before closing at $[closing price]. The price action suggests [bullish/bearish/neutral bias], with [notable trading behaviors: strong support hold, multiple rejections at resistance, low volatility] shaping the weekly range.
 
-        This week, Bitcoin [observed movement], with a [change] of [Weekly Performance]%, closing at approximately $[Current Price]. This movement [interpretation based on chart analysis].
+        The weekly candlestick formation exhibits [candle type: example (small-bodied, engulfing, doji)], suggesting [market sentiment: indecision, reversal potential, continuation]. [Explain how wicks/body reflect buyer/seller control.]
         
-        1. OHLC Review: (1-2 sentences Max)
-        Analyze the price movement over the last week, highlighting the last weekly open, high, low, and close in a one sentence summary. Then discuss how these price points reflect the market’s strength, weakness, or indecision. Mention any significant price levels or trends observed from the chart.
+        Bitcoin remains in a [trend direction: range-bound consolidation, uptrend, or corrective pullback]. While the macro trend remains [bullish/bearish/neutral], price action is currently [above/below key trendline or moving average], signaling [potential breakout, continued consolidation, downside risk].
+
+        Support & Resistance Levels
+        Key Resistance: $[psychological resistance, previous ATH, technical level] – A breakout above this level would indicate [trend confirmation, bullish expansion, price discovery].
+        Key Support: $[major support level, prior lows, moving average] – A breakdown below this level could trigger [sell-off, increased volatility, deeper correction].
         
-        2. Candlestick Analysis: (1-2 sentences Max)
-        The weekly candle shows [candle characteristics], suggesting [interpretation based on candlestick analysis].
-        
-        Provide a comprehensive analysis of the weekly price chart, integrating the following aspects:
-        
-        1. Price Trends and Directionality: (1-2 sentences Max)
-        Assess the current weekly price trend (uptrend, downtrend, or sideways movement) and explain how this fits within the broader market context. Offer insights on potential price directionality based on the weekly OHLC chart, and whether the chart indicates any upcoming shifts in market momentum or trend.
-        
-        2. Support and Resistance Analysis: (1-2 sentences Max)
-        Highlight key support and resistance levels based on the chart data. Explain how these levels influence future price action and whether they represent significant barriers or potential breakouts for price movement in either direction.
-        
-        Weekly Chart Scenario Outlook:
+        ## Weekly Chart Scenario Outlook:
 
         Bullish Scenario: (1-2 sentences Max)
 	    Develop a bullish scenario based on the current weekly chart and analysis. Identify conditions that could trigger upward momentum, such as key resistance breakouts or bullish candlestick patterns. Highlight the next resistance levels and discuss how sustained buying pressure might drive further price appreciation.
@@ -364,10 +347,9 @@ PROMPT_LIBRARY = {
         Bearish Scenario: (1-2 sentences Max)
         Formulate a bearish scenario by assessing the risk of Bitcoin breaching critical support levels. Evaluate the implications of downward price action, including potential sell-offs or increased volatility. Outline the next support zones and discuss the broader market conditions that might amplify bearish sentiment.
 
-        Summary of Outlook: (1-2 sentences Max)
-        Provide a concise 1-2 sentence overview of the week’s likely price trajectory, drawing from the bullish, base, and bearish scenarios. Indicate the most probable scenario based on current trends and technical indicators, and summarize key levels to watch for potential market shifts.
-
-        ----- Template End -----
+        Bitcoin remains [bullish/neutral/bearish], with $[resistance level] and $[support level] serving as key pivot points for directional movement. The most probable scenario is [range continuation, breakout, downside test], with traders closely watching [specific confirmation signals].
+       
+         ----- Template End -----
 
         """,
     },
@@ -430,12 +412,6 @@ PROMPT_LIBRARY = {
 
         Median Historical Performance:  
         Projected Return: [Historical Median Return]% | Projected Price: $[Projected Price Based on Median Path]  
-
-        Best-Case Scenario (Top 25% of Historical Returns):  
-        Projected Return: [Top Quartile Return for Year]% | Projected Price: $[Projected Price Based on Top Quartile Path]  
-
-        Worst-Case Scenario (Bottom 25% of Historical Returns):  
-        Projected Return: [Bottom Quartile Return for Year]% | Projected Price: $[Projected Price Based on Bottom Quartile Path]  
 
         ---  
 
@@ -610,7 +586,7 @@ def extract_text_from_response(response):
     return "\n".join(text_output)
 
 
-def process_csv_section(section_name, section_data, report_date):
+def process_csv_section(section_name, section_data, report_date, review_prompt):
     """
     Processes a CSV-based section by creating threads for two stages:
     - Stage 1: Generate the initial draft based on instructions and template.
@@ -631,18 +607,18 @@ def process_csv_section(section_name, section_data, report_date):
     client.beta.threads.messages.create(
         thread_id=thread.id, role="user", content=template
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
     initial_content = extract_text_from_response(response)
 
     # Stage 2: Refine the Draft using the Review Prompt
-    review_prompt = f"{REVIEW_PROMPT}\n\nGenerated Content:\n{initial_content}"
+    review_text = f"{review_prompt}\n\nGenerated Content:\n{initial_content}"
     client.beta.threads.messages.create(
-        thread_id=thread.id, role="user", content=review_prompt
+        thread_id=thread.id, role="user", content=review_text
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
@@ -651,7 +627,7 @@ def process_csv_section(section_name, section_data, report_date):
     return final_content
 
 
-def process_text_section(content):
+def process_text_section(content, review_prompt):
     """
     Processes text-based sections in two stages within the same thread:
     - Stage 1: Generate the initial draft.
@@ -664,18 +640,18 @@ def process_text_section(content):
     client.beta.threads.messages.create(
         thread_id=thread.id, role="user", content=content
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
     initial_content = extract_text_from_response(response)
 
     # Stage 2: Refine the Draft using the Review Prompt
-    review_prompt = f"{REVIEW_PROMPT}\n\nGenerated Content:\n{initial_content}"
+    review_text = f"{review_prompt}\n\nGenerated Content:\n{initial_content}"
     client.beta.threads.messages.create(
-        thread_id=thread.id, role="user", content=review_prompt
+        thread_id=thread.id, role="user", content=review_text
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
@@ -684,7 +660,7 @@ def process_text_section(content):
     return final_content
 
 
-def process_vision_section(uploaded_file, vision_prompt):
+def process_vision_section(uploaded_file, vision_prompt, review_prompt):
     """
     Processes vision (image-based) sections in two stages within the same thread:
     - Stage 1: Generate the initial draft based on the uploaded image and vision-specific instructions.
@@ -715,7 +691,7 @@ def process_vision_section(uploaded_file, vision_prompt):
         initial_content = extract_text_from_response(response)
 
         # Stage 2: Refine the Draft using the Review Prompt
-        review_prompt = f"{REVIEW_PROMPT}\n\nGenerated Content:\n{initial_content}"
+        review_prompt = f"{review_prompt}\n\nGenerated Content:\n{initial_content}"
         client.beta.threads.messages.create(
             thread_id=thread.id, role="user", content=review_prompt
         )
@@ -732,7 +708,7 @@ def process_vision_section(uploaded_file, vision_prompt):
         return None
 
 
-def process_static_section(conclusion_template, section_outputs):
+def process_static_section(conclusion_template, section_outputs,review_prompt):
     """
     Processes static sections in two stages within the same thread:
     - Stage 1: Generate the initial draft by filling the placeholders in the template.
@@ -757,18 +733,18 @@ def process_static_section(conclusion_template, section_outputs):
     client.beta.threads.messages.create(
         thread_id=thread.id, role="user", content=formatted_text
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
     initial_content = extract_text_from_response(response)
 
     # Stage 2: Refine the Draft using the Review Prompt
-    review_prompt = f"{REVIEW_PROMPT}\n\nGenerated Content:\n{initial_content}"
+    review_prompt = f"{review_prompt}\n\nGenerated Content:\n{initial_content}"
     client.beta.threads.messages.create(
         thread_id=thread.id, role="user", content=review_prompt
     )
-    run = client.beta.threads.runs.create_and_poll(
+    client.beta.threads.runs.create_and_poll(
         thread_id=thread.id, assistant_id=ASSISTANT_ID
     )
     response = client.beta.threads.messages.list(thread_id=thread.id)
@@ -776,7 +752,9 @@ def process_static_section(conclusion_template, section_outputs):
     return extract_text_from_response(response)
 
 
-def generate_full_report(news_stories, report_date, uploaded_image=None):
+def generate_full_report(
+    news_stories, report_date, uploaded_image=None, review_prompt=REVIEW_PROMPT
+):
     """
     Iterates through each section defined in the PROMPT_LIBRARY and processes
     CSV, text, and vision-based sections in two stages (initial + review).
@@ -793,11 +771,11 @@ def generate_full_report(news_stories, report_date, uploaded_image=None):
             if processing_type == "csv" and section_url:
                 data_df = pd.read_csv(section_url)
                 data_content = data_df.to_string(index=False)
-                # Process the CSV section directly
                 report_sections[section] = process_csv_section(
                     section_name=section,
                     section_data=data_content,
                     report_date=report_date,
+                    review_prompt=review_prompt,
                 )
 
             # Handle text-based sections
@@ -805,14 +783,14 @@ def generate_full_report(news_stories, report_date, uploaded_image=None):
                 formatted_text = info["template"].format(
                     data=news_stories or "No news available."
                 )
-                # Process the text section directly
-                report_sections[section] = process_text_section(formatted_text)
+                report_sections[section] = process_text_section(
+                    formatted_text, review_prompt
+                )
 
             # Handle image-based vision sections
             elif processing_type == "vision" and uploaded_image:
-                # Process the vision section directly
                 report_sections[section] = process_vision_section(
-                    uploaded_image, info["instruction"]
+                    uploaded_image, info["instruction"], review_prompt
                 )
 
         except Exception as e:
@@ -824,6 +802,7 @@ def generate_full_report(news_stories, report_date, uploaded_image=None):
         report_sections["conclusion_section"] = process_static_section(
             conclusion_template=section_info["template"],
             section_outputs=report_sections,
+            review_prompt=review_prompt,
         )
 
     # Combine all sections into a full report
@@ -835,4 +814,3 @@ def generate_full_report(news_stories, report_date, uploaded_image=None):
 
     print("Report Generated Successfully!")
     return full_report
-
