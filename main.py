@@ -23,7 +23,10 @@ if st.button("Generate Report"):
     if uploaded_image:
         # Generate the Weekly Bitcoin Recap report
         report = weekly_bitcoin_recap.generate_full_report(
-            news_stories, report_date, uploaded_image
+            news_stories,
+            report_date,
+            uploaded_image,
+            weekly_bitcoin_recap.REVIEW_PROMPT,
         )
         # Display the generated report
         st.text_area("Weekly Bitcoin Recap", report, height=600)
