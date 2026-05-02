@@ -1,0 +1,380 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Bitcoin Research Kit (BRK) - Series",
+    "description": "Vendored upstream-aligned subset of the BRK v0.2+ series API for Agent 21 ChatGPT Actions. This Action spec is intentionally JSON-first and simplified for Custom GPT compatibility.",
+    "version": "v0.2.5"
+  },
+  "servers": [
+    {
+      "url": "https://bitview.space"
+    }
+  ],
+  "paths": {
+    "/api/series/search": {
+      "get": {
+        "operationId": "searchSeries",
+        "summary": "Fuzzy search for series names",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search term for a BRK series name."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Maximum number of matches to return."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching series names",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/indexes": {
+      "get": {
+        "operationId": "getSeriesIndexes",
+        "summary": "List available indexes and aliases",
+        "responses": {
+          "200": {
+            "description": "Available indexes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IndexInfo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}": {
+      "get": {
+        "operationId": "getSeriesInfo",
+        "summary": "Get supported indexes and value type for a series",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Canonical BRK series name."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Series metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}": {
+      "get": {
+        "operationId": "getSeriesData",
+        "summary": "Fetch series data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Index alias or canonical index such as day, week, month, year1, or height."
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string",
+              "examples": ["-30", "2026-03-01", "2026-03-01T00:00:00Z"]
+            },
+            "description": "Start bound passed as a string. Supports negative offsets, absolute indexes, dates, and ISO timestamps."
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string",
+              "examples": ["-1", "2026-04-01", "2026-04-01T00:00:00Z"]
+            },
+            "description": "End bound passed as a string. Supports negative offsets, absolute indexes, dates, and ISO timestamps."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Series data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}/data": {
+      "get": {
+        "operationId": "getSeriesDataRaw",
+        "summary": "Fetch raw series values only",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string",
+              "examples": ["-30", "2026-03-01", "2026-03-01T00:00:00Z"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string",
+              "examples": ["-1", "2026-04-01", "2026-04-01T00:00:00Z"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Raw series values",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeriesValue"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}/latest": {
+      "get": {
+        "operationId": "getSeriesLatest",
+        "summary": "Fetch the latest value for a series",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest value",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesValue"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/bulk": {
+      "get": {
+        "operationId": "getSeriesBulk",
+        "summary": "Fetch multiple series at once",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "series",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated list of canonical BRK series names."
+          },
+          {
+            "in": "query",
+            "name": "index",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "type": "string",
+              "examples": ["-30", "2026-03-01", "2026-03-01T00:00:00Z"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "type": "string",
+              "examples": ["-1", "2026-04-01", "2026-04-01T00:00:00Z"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Series data array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SeriesData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SeriesInfo": {
+        "type": "object",
+        "properties": {
+          "indexes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "SeriesData": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "integer" },
+          "index": { "type": "string" },
+          "type": { "type": "string" },
+          "total": { "type": "integer" },
+          "start": { "type": "integer" },
+          "end": { "type": "integer" },
+          "stamp": { "type": "string" },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeriesValue"
+            }
+          }
+        }
+      },
+      "SeriesValue": {
+        "type": ["number", "array"],
+        "items": {
+          "type": "number"
+        }
+      },
+      "IndexInfo": {
+        "type": "object",
+        "properties": {
+          "index": { "type": "string" },
+          "aliases": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

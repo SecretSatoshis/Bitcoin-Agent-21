@@ -1,0 +1,162 @@
+openapi: 3.1.0
+info:
+  title: GitHub Repo File Reader
+  version: 1.0.0
+  description: Read files, list directories, and fetch blob bodies from public GitHub repositories using the GitHub REST API.
+servers:
+  - url: https://api.github.com
+paths:
+  /repos/{owner}/{repo}/contents/{path}:
+    get:
+      operationId: getRepoContent
+      summary: Get file contents or directory listing from a GitHub repo
+      description: >
+        Returns either a directory listing (array) or a file object with base64-encoded content.
+        For large files, GitHub may omit inline content and require a second retrieval step.
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository owner (user or org)
+        - name: repo
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository name
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Path to file or directory (URL-encoded). Use '.' for repo root.
+        - name: ref
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Branch, tag, or commit SHA (e.g. main)
+      responses:
+        "200":
+          description: File object or directory listing
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          enum: [file, dir, symlink, submodule]
+                        name:
+                          type: string
+                        path:
+                          type: string
+                        sha:
+                          type: string
+                        size:
+                          type: integer
+                        url:
+                          type: string
+                        html_url:
+                          type: string
+                        download_url:
+                          type: string
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        enum: [file]
+                      name:
+                        type: string
+                      path:
+                        type: string
+                      sha:
+                        type: string
+                      size:
+                        type: integer
+                      encoding:
+                        type:
+                          - string
+                          - "null"
+                        enum: [base64, null]
+                      content:
+                        type:
+                          - string
+                          - "null"
+                        description: Base64-encoded file contents when GitHub returns inline content
+                      download_url:
+                        type:
+                          - string
+                          - "null"
+                    required:
+                      - type
+                      - name
+                      - path
+                      - sha
+                      - size
+        "404":
+          description: Not found
+        "403":
+          description: Forbidden or rate limited
+  /repos/{owner}/{repo}/git/blobs/{file_sha}:
+    get:
+      operationId: getRepoBlob
+      summary: Get raw blob contents from a GitHub repo by SHA
+      description: >
+        Fetches the underlying Git blob body for a file object. Use this after getRepoContent
+        when the contents endpoint returns metadata for a large file without inline content.
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository owner (user or org)
+        - name: repo
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Repository name
+        - name: file_sha
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Blob SHA returned by getRepoContent
+      responses:
+        "200":
+          description: Raw blob object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sha:
+                    type: string
+                  node_id:
+                    type: string
+                  size:
+                    type: integer
+                  url:
+                    type: string
+                  content:
+                    type: string
+                    description: Base64-encoded blob contents
+                  encoding:
+                    type: string
+                    enum: [base64, utf-8]
+                required:
+                  - sha
+                  - size
+                  - content
+                  - encoding
+        "404":
+          description: Not found
+        "403":
+          description: Forbidden or rate limited

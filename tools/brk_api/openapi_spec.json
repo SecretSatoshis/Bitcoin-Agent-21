@@ -1,0 +1,1273 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Bitcoin Research Kit (BRK)",
+    "description": "Vendored upstream-aligned BRK reference spec for querying Bitcoin blockchain data, on-chain series, mining statistics, and market analytics. Used by Agent 21 to provide real-time Bitcoin data.",
+    "version": "v0.2.3"
+  },
+  "servers": [
+    {
+      "url": "https://bitview.space"
+    }
+  ],
+  "paths": {
+    "/api/address/{address}": {
+      "get": {
+        "operationId": "getAddressInfo",
+        "summary": "Get address information",
+        "description": "Retrieve address information including balance and transaction counts. Supports P2PKH, P2SH, P2WPKH, P2WSH, P2TR.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Bitcoin address"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address stats",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddressStats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/{address}/txs": {
+      "get": {
+        "operationId": "getAddressTxs",
+        "summary": "Get address transactions",
+        "description": "Get transaction IDs for an address, newest first. Use after_txid for pagination.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "after_txid",
+            "schema": { "type": "string" },
+            "description": "Pagination cursor: txid to start after"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of transaction IDs",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/address/{address}/utxo": {
+      "get": {
+        "operationId": "getAddressUtxos",
+        "summary": "Get address UTXOs",
+        "description": "Get unspent transaction outputs (UTXOs) for an address.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of UTXOs",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Utxo" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/validate-address/{address}": {
+      "get": {
+        "operationId": "validateAddress",
+        "summary": "Validate a Bitcoin address",
+        "description": "Validate a Bitcoin address and get information about its type and scriptPubKey.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation result",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddressValidation" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blocks": {
+      "get": {
+        "operationId": "getRecentBlocks",
+        "summary": "Get last 10 blocks",
+        "description": "Retrieve the last 10 blocks with metadata.",
+        "responses": {
+          "200": {
+            "description": "Array of block info",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/BlockInfo" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/block/{hash}": {
+      "get": {
+        "operationId": "getBlockByHash",
+        "summary": "Get block by hash",
+        "description": "Retrieve block information by block hash including height, timestamp, difficulty, size, weight, and tx count.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hash",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block info",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlockInfo" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/block-height/{height}": {
+      "get": {
+        "operationId": "getBlockByHeight",
+        "summary": "Get block by height",
+        "description": "Retrieve block information by block height.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "height",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block info",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlockInfo" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/block/{hash}/txids": {
+      "get": {
+        "operationId": "getBlockTxids",
+        "summary": "Get transaction IDs in a block",
+        "description": "Retrieve all transaction IDs in a block.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hash",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of txids",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/blocks/timestamp/{timestamp}": {
+      "get": {
+        "operationId": "getBlockByTimestamp",
+        "summary": "Find block by timestamp",
+        "description": "Find the block closest to a given UNIX timestamp.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "timestamp",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block timestamp info",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlockTimestamp" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/mempool/info": {
+      "get": {
+        "operationId": "getMempoolInfo",
+        "summary": "Get mempool statistics",
+        "description": "Get current mempool statistics including transaction count, total vsize, and total fees.",
+        "responses": {
+          "200": {
+            "description": "Mempool info",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MempoolInfo" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/fees/recommended": {
+      "get": {
+        "operationId": "getRecommendedFees",
+        "summary": "Get recommended fee rates",
+        "description": "Get recommended fee rates for different confirmation targets based on current mempool state.",
+        "responses": {
+          "200": {
+            "description": "Recommended fees",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RecommendedFees" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/fees/mempool-blocks": {
+      "get": {
+        "operationId": "getMempoolBlocks",
+        "summary": "Get projected mempool blocks",
+        "description": "Get projected blocks from the mempool for fee estimation.",
+        "responses": {
+          "200": {
+            "description": "Array of mempool blocks",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/MempoolBlock" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/difficulty-adjustment": {
+      "get": {
+        "operationId": "getDifficultyAdjustment",
+        "summary": "Get difficulty adjustment info",
+        "description": "Get current difficulty adjustment progress, estimated retarget date, and difficulty change prediction.",
+        "responses": {
+          "200": {
+            "description": "Difficulty adjustment info",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DifficultyAdjustment" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/pools/{time_period}": {
+      "get": {
+        "operationId": "getMiningPools",
+        "summary": "Get mining pool stats for a period",
+        "description": "Get mining pool statistics for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pool summary",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PoolsSummary" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/pool/{slug}": {
+      "get": {
+        "operationId": "getMiningPoolDetail",
+        "summary": "Get mining pool detail",
+        "description": "Get detailed information about a specific mining pool.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pool detail",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PoolDetail" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/hashrate/{time_period}": {
+      "get": {
+        "operationId": "getHashrate",
+        "summary": "Get network hashrate and difficulty",
+        "description": "Get network hashrate and difficulty data for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hashrate summary",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HashrateSummary" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/difficulty-adjustments/{time_period}": {
+      "get": {
+        "operationId": "getDifficultyAdjustments",
+        "summary": "Get historical difficulty adjustments",
+        "description": "Get historical difficulty adjustments for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of difficulty adjustments",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/DifficultyAdjustmentEntry" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/blocks/fees/{time_period}": {
+      "get": {
+        "operationId": "getBlockFees",
+        "summary": "Get average block fees",
+        "description": "Get average block fees for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block fees data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/BlockFeesEntry" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/blocks/rewards/{time_period}": {
+      "get": {
+        "operationId": "getBlockRewards",
+        "summary": "Get average block rewards",
+        "description": "Get average block rewards (subsidy + fees) for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block rewards data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/BlockRewardsEntry" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/blocks/sizes-weights/{time_period}": {
+      "get": {
+        "operationId": "getBlockSizesWeights",
+        "summary": "Get average block sizes and weights",
+        "description": "Get average block sizes and weights for a time period. Valid periods: 24h, 3d, 1w, 1m, 3m, 6m, 1y, 2y, 3y",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "time_period",
+            "required": true,
+            "schema": { "type": "string", "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block sizes and weights",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BlockSizesWeights" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/mining/reward-stats/{block_count}": {
+      "get": {
+        "operationId": "getRewardStats",
+        "summary": "Get mining reward stats for last N blocks",
+        "description": "Get mining reward statistics for the last N blocks.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "block_count",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reward stats",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RewardStats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tx/{txid}": {
+      "get": {
+        "operationId": "getTransaction",
+        "summary": "Get transaction by txid",
+        "description": "Retrieve complete transaction data including inputs, outputs, fee, size, and confirmation status.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "txid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction data",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Transaction" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tx/{txid}/status": {
+      "get": {
+        "operationId": "getTransactionStatus",
+        "summary": "Get transaction confirmation status",
+        "description": "Returns whether the transaction is confirmed and block details if so.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "txid",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction status",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TxStatus" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/search": {
+      "get": {
+        "operationId": "searchSeries",
+        "summary": "Fuzzy search for series",
+        "description": "Fuzzy search for series by name. Supports partial matches and typos.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Search term for series name"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" },
+            "description": "Max results to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching series names",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/indexes": {
+      "get": {
+        "operationId": "getSeriesIndexes",
+        "summary": "List available indexes",
+        "description": "Returns all available indexes with their accepted aliases.",
+        "responses": {
+          "200": {
+            "description": "Available indexes",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/IndexInfo" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}": {
+      "get": {
+        "operationId": "getSeriesInfo",
+        "summary": "Get metadata for a series",
+        "description": "Returns supported indexes and value type for the specified series.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Series metadata",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SeriesInfo" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}": {
+      "get": {
+        "operationId": "getSeriesData",
+        "summary": "Fetch series data",
+        "description": "Fetch data for a specific series at the given index. Supports CSV and JSON output.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Series name (for example price_close, market_cap, sopr_24h)"
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Index alias or canonical index (for example day, week1, month1, year1, height)"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            },
+            "description": "Start bound. Supports negative offsets, absolute indexes, dates, and ISO timestamps."
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            },
+            "description": "End bound. Supports negative offsets, absolute indexes, dates, and ISO timestamps."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" },
+            "description": "Max results to return"
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "schema": { "type": "string", "enum": ["json", "csv"] },
+            "description": "Output format. Agent 21 defaults to csv for analytical retrieval."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Series data",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SeriesData" }
+              },
+              "text/csv": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}/data": {
+      "get": {
+        "operationId": "getSeriesDataRaw",
+        "summary": "Fetch raw series values",
+        "description": "Returns just the raw series values without the SeriesData wrapper.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "schema": { "type": "string", "enum": ["json", "csv"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Raw series values",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": {} }
+              },
+              "text/csv": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/{series}/{index}/latest": {
+      "get": {
+        "operationId": "getSeriesLatest",
+        "summary": "Fetch the latest value for a series",
+        "description": "Returns the single most recent value for a series.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "series",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "index",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Latest value",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/bulk": {
+      "get": {
+        "operationId": "getSeriesBulk",
+        "summary": "Fetch multiple series at once",
+        "description": "Fetch multiple series in a single request. Returns an array of SeriesData objects.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "series",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Comma-separated list of series names"
+          },
+          {
+            "in": "query",
+            "name": "index",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Index type"
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "schema": {
+              "oneOf": [
+                { "type": "integer" },
+                { "type": "string" }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": { "type": "integer" }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "schema": { "type": "string", "enum": ["json", "csv"] },
+            "description": "Output format. Agent 21 defaults to csv for analytical retrieval."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of series data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/SeriesData" } }
+              },
+              "text/csv": {
+                "schema": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/cost-basis": {
+      "get": {
+        "operationId": "getCostBasisCohorts",
+        "summary": "List cost basis cohorts",
+        "description": "List available cohorts for cost basis distribution.",
+        "responses": {
+          "200": {
+            "description": "Array of cohort names",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/cost-basis/{cohort}/dates": {
+      "get": {
+        "operationId": "getCostBasisDates",
+        "summary": "List dates for a cost basis cohort",
+        "description": "List available dates for a cohort's cost basis distribution.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohort",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of dates (YYYYMMDD format)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "integer" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/cost-basis/{cohort}/{date}": {
+      "get": {
+        "operationId": "getCostBasisDistribution",
+        "summary": "Get cost basis distribution",
+        "description": "Get the cost basis distribution for a cohort on a specific date.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohort",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "path",
+            "name": "date",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Date in YYYYMMDD format"
+          },
+          {
+            "in": "query",
+            "name": "bucket",
+            "schema": { "type": "string", "enum": ["raw", "lin200", "lin500", "lin1000", "log10", "log50", "log100"] },
+            "description": "Bucket type for aggregation"
+          },
+          {
+            "in": "query",
+            "name": "value",
+            "schema": { "type": "string", "enum": ["supply", "realized", "unrealized"] },
+            "description": "Value type: supply (BTC), realized (USD), unrealized (USD)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cost basis distribution",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/server/sync": {
+      "get": {
+        "operationId": "getSyncStatus",
+        "summary": "Get indexer sync status",
+        "description": "Returns sync status including indexed height, tip height, and blocks behind.",
+        "responses": {
+          "200": {
+            "description": "Sync status",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SyncStatus" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Health check",
+        "description": "Returns the health status of the API server.",
+        "responses": {
+          "200": {
+            "description": "Health status",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Health" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressStats": {
+        "type": "object",
+        "properties": {
+          "address": { "type": "string" },
+          "chain_stats": { "$ref": "#/components/schemas/AddressChainStats" },
+          "mempool_stats": { "$ref": "#/components/schemas/AddressMempoolStats" }
+        }
+      },
+      "AddressChainStats": {
+        "type": "object",
+        "properties": {
+          "funded_txo_count": { "type": "integer" },
+          "funded_txo_sum": { "type": "integer", "description": "Satoshis" },
+          "spent_txo_count": { "type": "integer" },
+          "spent_txo_sum": { "type": "integer", "description": "Satoshis" },
+          "tx_count": { "type": "integer" }
+        }
+      },
+      "AddressMempoolStats": {
+        "type": "object",
+        "properties": {
+          "funded_txo_count": { "type": "integer" },
+          "funded_txo_sum": { "type": "integer" },
+          "spent_txo_count": { "type": "integer" },
+          "spent_txo_sum": { "type": "integer" },
+          "tx_count": { "type": "integer" }
+        }
+      },
+      "Utxo": {
+        "type": "object",
+        "properties": {
+          "txid": { "type": "string" },
+          "vout": { "type": "integer" },
+          "status": { "$ref": "#/components/schemas/TxStatus" },
+          "value": { "type": "integer", "description": "Satoshis" }
+        }
+      },
+      "TxStatus": {
+        "type": "object",
+        "properties": {
+          "confirmed": { "type": "boolean" },
+          "block_height": { "type": "integer" },
+          "block_hash": { "type": "string" },
+          "block_time": { "type": "integer", "description": "UNIX timestamp" }
+        }
+      },
+      "AddressValidation": {
+        "type": "object",
+        "properties": {
+          "isvalid": { "type": "boolean" },
+          "address": { "type": "string" },
+          "scriptPubKey": { "type": "string" },
+          "isscript": { "type": "boolean" },
+          "iswitness": { "type": "boolean" },
+          "witness_version": { "type": "integer" },
+          "witness_program": { "type": "string" }
+        }
+      },
+      "BlockInfo": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Block hash" },
+          "height": { "type": "integer" },
+          "tx_count": { "type": "integer" },
+          "size": { "type": "integer" },
+          "weight": { "type": "integer" },
+          "timestamp": { "type": "integer", "description": "UNIX timestamp" },
+          "difficulty": { "type": "number" }
+        }
+      },
+      "BlockTimestamp": {
+        "type": "object",
+        "properties": {
+          "height": { "type": "integer" },
+          "hash": { "type": "string" },
+          "timestamp": { "type": "string" }
+        }
+      },
+      "MempoolInfo": {
+        "type": "object",
+        "properties": {
+          "count": { "type": "integer" },
+          "vsize": { "type": "integer", "description": "Virtual size in vbytes" },
+          "total_fee": { "type": "integer", "description": "Satoshis" }
+        }
+      },
+      "RecommendedFees": {
+        "type": "object",
+        "properties": {
+          "fastestFee": { "type": "number", "description": "sat/vB" },
+          "halfHourFee": { "type": "number", "description": "sat/vB" },
+          "hourFee": { "type": "number", "description": "sat/vB" },
+          "economyFee": { "type": "number", "description": "sat/vB" },
+          "minimumFee": { "type": "number", "description": "sat/vB" }
+        }
+      },
+      "MempoolBlock": {
+        "type": "object",
+        "properties": {
+          "blockSize": { "type": "integer" },
+          "blockVSize": { "type": "number" },
+          "nTx": { "type": "integer" },
+          "totalFees": { "type": "integer" },
+          "medianFee": { "type": "number" },
+          "feeRange": { "type": "array", "items": { "type": "number" } }
+        }
+      },
+      "DifficultyAdjustment": {
+        "type": "object",
+        "properties": {
+          "progressPercent": { "type": "number" },
+          "difficultyChange": { "type": "number" },
+          "estimatedRetargetDate": { "type": "integer" },
+          "remainingBlocks": { "type": "integer" },
+          "remainingTime": { "type": "integer" },
+          "previousRetarget": { "type": "number" },
+          "nextRetargetHeight": { "type": "integer" },
+          "timeAvg": { "type": "integer" },
+          "adjustedTimeAvg": { "type": "integer" },
+          "timeOffset": { "type": "integer" }
+        }
+      },
+      "PoolsSummary": {
+        "type": "object",
+        "properties": {
+          "pools": { "type": "array", "items": { "$ref": "#/components/schemas/PoolStats" } },
+          "blockCount": { "type": "integer" },
+          "lastEstimatedHashrate": { "type": "integer" }
+        }
+      },
+      "PoolStats": {
+        "type": "object",
+        "properties": {
+          "poolId": { "type": "integer" },
+          "name": { "type": "string" },
+          "link": { "type": "string" },
+          "blockCount": { "type": "integer" },
+          "rank": { "type": "integer" },
+          "emptyBlocks": { "type": "integer" },
+          "slug": { "type": "string" },
+          "share": { "type": "number" }
+        }
+      },
+      "PoolDetail": {
+        "type": "object",
+        "properties": {
+          "pool": { "type": "object" },
+          "blockCount": { "type": "object" },
+          "blockShare": { "type": "object" },
+          "estimatedHashrate": { "type": "integer" },
+          "reportedHashrate": { "type": "integer" }
+        }
+      },
+      "HashrateSummary": {
+        "type": "object",
+        "properties": {
+          "hashrates": { "type": "array", "items": { "$ref": "#/components/schemas/HashrateEntry" } },
+          "difficulty": { "type": "array", "items": { "$ref": "#/components/schemas/DifficultyEntry" } },
+          "currentHashrate": { "type": "integer" },
+          "currentDifficulty": { "type": "number" }
+        }
+      },
+      "HashrateEntry": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "integer" },
+          "avgHashrate": { "type": "integer" }
+        }
+      },
+      "DifficultyEntry": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "integer" },
+          "difficulty": { "type": "number" },
+          "height": { "type": "integer" }
+        }
+      },
+      "DifficultyAdjustmentEntry": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "integer" },
+          "height": { "type": "integer" },
+          "difficulty": { "type": "number" },
+          "change_percent": { "type": "number" }
+        }
+      },
+      "BlockFeesEntry": {
+        "type": "object",
+        "properties": {
+          "avgHeight": { "type": "integer" },
+          "timestamp": { "type": "integer" },
+          "avgFees": { "type": "integer", "description": "Satoshis" }
+        }
+      },
+      "BlockRewardsEntry": {
+        "type": "object",
+        "properties": {
+          "avgHeight": { "type": "integer" },
+          "timestamp": { "type": "integer" },
+          "avgRewards": { "type": "integer" }
+        }
+      },
+      "BlockSizesWeights": {
+        "type": "object",
+        "properties": {
+          "sizes": { "type": "array", "items": { "type": "object" } },
+          "weights": { "type": "array", "items": { "type": "object" } }
+        }
+      },
+      "RewardStats": {
+        "type": "object",
+        "properties": {
+          "startBlock": { "type": "integer" },
+          "endBlock": { "type": "integer" },
+          "totalReward": { "type": "integer", "description": "Satoshis" },
+          "totalFee": { "type": "integer", "description": "Satoshis" },
+          "totalTx": { "type": "integer" }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "txid": { "type": "string" },
+          "version": { "type": "integer" },
+          "locktime": { "type": "integer" },
+          "size": { "type": "integer" },
+          "weight": { "type": "integer" },
+          "sigops": { "type": "integer" },
+          "fee": { "type": "integer", "description": "Satoshis" },
+          "vin": { "type": "array", "items": { "type": "object" } },
+          "vout": { "type": "array", "items": { "type": "object" } },
+          "status": { "$ref": "#/components/schemas/TxStatus" }
+        }
+      },
+      "SeriesInfo": {
+        "type": "object",
+        "properties": {
+          "indexes": { "type": "array", "items": { "type": "string" } },
+          "type": { "type": "string" }
+        }
+      },
+      "SeriesData": {
+        "type": "object",
+        "properties": {
+          "version": { "type": "integer" },
+          "index": { "type": "string" },
+          "type": { "type": "string" },
+          "total": { "type": "integer" },
+          "start": { "type": "integer" },
+          "end": { "type": "integer" },
+          "stamp": { "type": "string" },
+          "data": { "type": "array", "items": {} }
+        }
+      },
+      "IndexInfo": {
+        "type": "object",
+        "properties": {
+          "index": { "type": "string" },
+          "aliases": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "SyncStatus": {
+        "type": "object",
+        "properties": {
+          "indexed_height": { "type": "integer" },
+          "tip_height": { "type": "integer" },
+          "blocks_behind": { "type": "integer" },
+          "last_indexed_at": { "type": "string" },
+          "last_indexed_at_unix": { "type": "integer" }
+        }
+      },
+      "Health": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "service": { "type": "string" },
+          "timestamp": { "type": "string" },
+          "started_at": { "type": "string" },
+          "uptime_seconds": { "type": "integer" }
+        }
+      }
+    }
+  }
+}
