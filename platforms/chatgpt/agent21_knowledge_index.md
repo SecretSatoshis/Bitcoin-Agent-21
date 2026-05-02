@@ -11,7 +11,7 @@ These are the main Secret Satoshis surfaces and public references connected to t
 | Surface | What It Is | Link |
 |---|---|---|
 | Website | Main Secret Satoshis site | [secretsatoshis.com](https://www.secretsatoshis.com/) |
-| Newsletter | Published research, guides, and market analysis | [Secret Satoshis on Substack](https://www.newsletter.secretsatoshis.com/) |
+| Newsletter | Published research, guides, and market analysis | [Secret Satoshis on Substack](https://newsletter.secretsatoshis.com/) |
 | GitHub | Open-source repos across the stack | [github.com/SecretSatoshis](https://github.com/SecretSatoshis) |
 | X | Public commentary and updates | [x.com/SecretSatoshis](https://x.com/SecretSatoshis) |
 | ChatGPT Agent | The deployed Agent 21 Custom GPT | [Agent 21 on ChatGPT](https://chatgpt.com/g/g-BZXtVdU6M-agent-21) |

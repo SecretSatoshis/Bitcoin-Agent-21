@@ -1,6 +1,6 @@
 # Agent 21 — Bitcoin AI Agent
 
-**Open-source Bitcoin AI agent powering [Secret Satoshis](https://www.newsletter.secretsatoshis.com/).**
+**Open-source Bitcoin AI agent powering [Secret Satoshis](https://newsletter.secretsatoshis.com/).**
 
 ---
 
@@ -51,7 +51,7 @@ The two platforms share the same Secret Satoshis source material, shared skills,
 
 | Surface | Link |
 |---|---|
-| Secret Satoshis | [newsletter.secretsatoshis.com](https://www.newsletter.secretsatoshis.com/) |
+| Secret Satoshis | [newsletter.secretsatoshis.com](https://newsletter.secretsatoshis.com/) |
 | Secret Satoshis on X | [x.com/SecretSatoshis](https://x.com/SecretSatoshis) |
 | Secret Satoshis GitHub | [github.com/SecretSatoshis](https://github.com/SecretSatoshis) |
 | BRK (Bitcoin Research Kit) | [github.com/bitcoinresearchkit/brk](https://github.com/bitcoinresearchkit/brk) |

@@ -11,7 +11,7 @@ Secret Satoshis is a Bitcoin education and intelligence platform that combines r
 | Surface | What It Is | Link |
 |---|---|---|
 | **Website** | Main website for all Secret Satoshis | [secretsatoshis.com](https://www.secretsatoshis.com/) |
-| **Newsletter** | Published research articles, guides, market analysis, and frameworks on Substack | [Secret Satoshis on Substack](https://www.newsletter.secretsatoshis.com/) |
+| **Newsletter** | Published research articles, guides, market analysis, and frameworks on Substack | [Secret Satoshis on Substack](https://newsletter.secretsatoshis.com/) |
 | **GitHub** | Open-source code - all repos for agent identity, data, charts, and reports | [github.com/SecretSatoshis](https://github.com/SecretSatoshis) |
 | **X** | Community updates and Bitcoin commentary | [x.com/SecretSatoshis](https://x.com/SecretSatoshis) |
 
