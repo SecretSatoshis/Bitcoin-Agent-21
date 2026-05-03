@@ -58,6 +58,16 @@ Do not:
 
 If a mapped input is missing, surface the gap clearly instead of silently substituting unrelated data.
 
+### RSS-Backed Sections
+
+Some templates map a section to RSS feeds rather than CSVs (for example, the Weekly Bitcoin Recap News Section). When a section's input is RSS:
+
+1. Use the canonical feed list from the template — never improvise or substitute feeds.
+2. Fetch and parse those feeds using `rss.md`. That skill defines how to issue the request, handle status codes, and normalize parsed items.
+3. After `rss.md` returns the normalized items, apply the section's own template rules for time-window filtering, ranking, source diversity, attribution format, and selection counts.
+
+If `rss.md` reports that a feed is inaccessible, treat it the same as a missing CSV input: surface the gap instead of inventing items or quietly substituting another feed.
+
 ## Master Dataset Naming
 
 If a report template refers to the master metrics dataset, treat `master_metrics_data.csv.gz` as the canonical file name when that is the current published artifact.

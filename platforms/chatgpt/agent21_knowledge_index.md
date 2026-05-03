@@ -47,6 +47,7 @@ These files teach Agent 21 how to perform specific tasks. Consult the relevant o
 | `data_analysis.md` | Data parsing, transformations, charting patterns, visual conventions |
 | `brk.md` | Reference file for the bitview.space Action — BRK semantics, naming, discovery, range logic, derived calculations |
 | `report_generation.md` | Template-driven report generation from Report Library |
+| `rss.md` | Fetching RSS/Atom feeds and normalizing parsed items — fetch + read only, no source selection or ranking |
 
 ---
 

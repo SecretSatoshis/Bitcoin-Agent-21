@@ -78,6 +78,7 @@ Skills are reference files that teach Agent 21 how to perform standard tasks. Ea
 | `report_generation.md` | Template-driven report generation — how to read canonical Report Library templates, follow their mapped inputs, and assemble finished reports |
 | `voice.md` | Shared writing skill — Agent 21 voice, anti-slop cleanup, source-voice normalization, and final phrasing standards |
 | `data_analysis.md` | How to do data analysis and charting — Secret Satoshis visual style, standard chart types, data processing patterns |
+| `rss.md` | How to fetch RSS/Atom feeds and normalize parsed items — pure fetch and read, no source selection or ranking |
 
 ---
 
