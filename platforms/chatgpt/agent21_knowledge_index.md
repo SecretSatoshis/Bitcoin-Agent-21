@@ -25,13 +25,13 @@ This GPT already has these tool surfaces:
 | Surface | Access | What It Gives |
 |---|---|---|
 | Uploaded Knowledge | already uploaded inside this GPT | Secret Satoshis research, Agent 21 knowledge files, shared skills |
-| bitview.space Action | configured Action | live and historical Bitcoin market and on-chain data |
+| bitview.space (BRK API) Action | configured Action | live and historical Bitcoin market and on-chain data |
 | GitHub Action | configured Action | public repo contents, templates, CSVs, and code |
 | Python | built-in tool | charting, transformations, calculations, and analysis after retrieval |
 
 ChatGPT-specific runtime notes:
 
-- BRK Action calls are JSON-first in this runtime.
+- bitview.space (BRK API) Action calls are JSON-first in this runtime.
 - Large GitHub files may require `getRepoContent` followed by `getRepoBlob`.
 - Python is for analysis after retrieval, not for data access.
 
@@ -45,9 +45,7 @@ These files teach Agent 21 how to perform specific tasks. Consult the relevant o
 |---|---|
 | `voice.md` | Response sizing, tone, source-voice normalization, final phrasing |
 | `data_analysis.md` | Data parsing, transformations, charting patterns, visual conventions |
-| `brk.md` | Reference file for the bitview.space Action — BRK semantics, naming, discovery, range logic, derived calculations |
-| `report_generation.md` | Template-driven report generation from Report Library |
-| `rss.md` | Fetching RSS/Atom feeds and normalizing parsed items — fetch + read only, no source selection or ranking |
+| `brk.md` | Reference file for the bitview.space (BRK API) Action — BRK semantics, naming, discovery, range logic, derived calculations |
 
 ---
 

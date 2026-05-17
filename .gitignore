@@ -11,6 +11,12 @@
 # Claude Code
 .claude/
 
+# Local/private skills
+resources/skills/report_generation.md
+resources/skills/news_analysis.md
+resources/secret_satoshis/
+platforms/codex/
+
 # Environment variables
 .env
 .env.local

@@ -44,7 +44,7 @@ The two platforms share the same Secret Satoshis source material, shared skills,
 | Folder | What's Inside |
 |---|---|
 | `platforms/` | Runtime-specific deployment files for ChatGPT and Claude |
-| `resources/` | Shared skills, uploaded PDFs, and external reference material |
+| `resources/` | Shared skills and external reference material |
 | `tools/` | BRK and GitHub tool specs used by the platform deployments |
 
 ## Main Surfaces

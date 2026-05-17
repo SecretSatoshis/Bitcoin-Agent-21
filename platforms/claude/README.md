@@ -4,9 +4,14 @@ Files and instructions for deploying Agent 21 as a Claude custom project.
 
 ---
 
-## Project Instructions
+## Instructions
 
-Paste the contents of `system_prompt.md` (from this folder) into the project's **Project Instructions** field. This is adapted from the canonical prompt at `identity/system_prompt.md` for the Claude project environment.
+Paste `platforms/claude/system_prompt.md` into the project's **Project Instructions** field.
+
+This file is the Claude-specific runtime prompt.
+- uploaded **Knowledge** files
+- configured **GitHub connector**
+- built-in **Analysis Tool**
 
 ## Knowledge Files
 
@@ -14,10 +19,9 @@ Upload the following to the project's **Knowledge** section:
 
 - `platforms/claude/agent21_knowledge_index.md`
 - `resources/skills/brk.md`
-- `resources/skills/report_generation.md`
 - `resources/skills/voice.md`
 - `resources/skills/data_analysis.md`
-- 12 Secret Satoshis PDFs (located in `resources/secret_satoshis/`):
+- 12 Secret Satoshis PDFs from the private deployment bundle:
   - `start_here_secret_satoshis_faq.pdf`
   - `bitcoin_ai_agent_21.pdf`
   - `welcome_to_bitcoin.pdf`
@@ -31,7 +35,7 @@ Upload the following to the project's **Knowledge** section:
   - `bitcoin_2025_year_end_review.pdf`
   - `bitcoin_2026_price_outlook.pdf`
 
-**Total: 17 files** (5 markdown + 12 PDFs). Knowledge files persist across sessions in Claude projects.
+**Total: 16 files** (4 markdown + 12 PDFs). Knowledge files persist across sessions in Claude projects.
 
 Use the Claude-specific knowledge index above rather than the general repo-level index. It is written for the Claude project environment where the knowledge files are already uploaded, the GitHub connector is available, and the analysis tool is built in.
 
@@ -40,6 +44,7 @@ Use the Claude-specific knowledge index above rather than the general repo-level
 1. Go to project settings > Connectors
 2. Enable the GitHub integration
 3. Connect the following repositories:
+   - `SecretSatoshis/Bitcoin-Agent-21`
    - `SecretSatoshis/Bitcoin-Report-Library`
    - `SecretSatoshis/Bitcoin-Chart-Library`
 4. Sync repository contents so files are accessible within the project
@@ -52,4 +57,13 @@ Agent 21 should use BRK's current **series** API, not the legacy metrics routes.
 
 ---
 
-Canonical system prompt: [`identity/system_prompt.md`](../../identity/system_prompt.md)
+## Runtime Pair
+
+The two primary Claude runtime files are:
+
+- `platforms/claude/system_prompt.md` — behavior and tool policy for the Claude project
+- `platforms/claude/agent21_knowledge_index.md` — map of uploaded knowledge, GitHub connector, and standard tool usage patterns
+
+Keep those files aligned whenever Claude deployment logic changes.
+
+---
