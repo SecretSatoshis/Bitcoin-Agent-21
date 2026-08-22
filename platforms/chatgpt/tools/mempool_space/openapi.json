@@ -1,0 +1,626 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mempool.space Bitcoin Explorer (Read Only)",
+    "version": "1.0.0",
+    "description": "A curated, unauthenticated, GET-only subset of the public mempool.space mainnet API for current Bitcoin network state, blocks, transactions, fees, mining, and user-requested address lookup. It cannot broadcast transactions, accelerate transactions, authenticate wallets, or modify external data."
+  },
+  "servers": [
+    {
+      "url": "https://mempool.space/api",
+      "description": "Public Bitcoin mainnet API"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/blocks/tip/height": {
+      "get": {
+        "operationId": "mempoolGetTipHeight",
+        "summary": "Get the current Bitcoin chain-tip height",
+        "description": "Returns the current mainnet chain-tip height as plain text. Recheck it when an exact current height matters.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Current tip height",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blocks/tip/hash": {
+      "get": {
+        "operationId": "mempoolGetTipHash",
+        "summary": "Get the current Bitcoin chain-tip hash",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Current tip block hash",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hash"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/blocks": {
+      "get": {
+        "operationId": "mempoolGetRecentBlocks",
+        "summary": "Get recent Bitcoin blocks",
+        "description": "Returns a bounded recent-block summary from the current mainnet view.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Recent blocks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RecentBlock"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block-height/{height}": {
+      "get": {
+        "operationId": "mempoolGetBlockHashByHeight",
+        "summary": "Resolve a block height to its block hash",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "height",
+            "in": "path",
+            "required": true,
+            "description": "Bitcoin mainnet block height.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block hash",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hash"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/block/{hash}": {
+      "get": {
+        "operationId": "mempoolGetBlock",
+        "summary": "Get a Bitcoin block summary by hash",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "description": "A 64-character Bitcoin block hash.",
+            "schema": {
+              "$ref": "#/components/schemas/Hash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tx/{txid}": {
+      "get": {
+        "operationId": "mempoolGetTransaction",
+        "summary": "Get a Bitcoin transaction by transaction ID",
+        "description": "Returns public mainnet transaction details. Use only when transaction-level detail is needed; very large transactions may exceed platform response limits.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "txid",
+            "in": "path",
+            "required": true,
+            "description": "A 64-character Bitcoin transaction ID.",
+            "schema": {
+              "$ref": "#/components/schemas/Hash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tx/{txid}/status": {
+      "get": {
+        "operationId": "mempoolGetTransactionStatus",
+        "summary": "Get confirmation status for a Bitcoin transaction",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "txid",
+            "in": "path",
+            "required": true,
+            "description": "A 64-character Bitcoin transaction ID.",
+            "schema": {
+              "$ref": "#/components/schemas/Hash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction confirmation status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/address/{address}": {
+      "get": {
+        "operationId": "mempoolGetAddressSummary",
+        "summary": "Get public Bitcoin address statistics",
+        "description": "Returns funded, spent, and transaction-count statistics for a user-requested mainnet address. Querying sends that public address to mempool.space. Treat addresses as privacy-sensitive pseudonymous identifiers and never infer identity or ownership from the result.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "description": "A public Bitcoin mainnet address supplied or explicitly requested by the user.",
+            "schema": {
+              "type": "string",
+              "minLength": 14,
+              "maxLength": 90
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address chain and mempool statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/validate-address/{address}": {
+      "get": {
+        "operationId": "mempoolValidateAddress",
+        "summary": "Validate and inspect a Bitcoin address",
+        "description": "Validates a user-requested Bitcoin address and returns its public script metadata. The queried address is sent to mempool.space.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "description": "A public Bitcoin address string supplied or explicitly requested by the user.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 90
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddressValidation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mempool": {
+      "get": {
+        "operationId": "mempoolGetCurrentMempool",
+        "summary": "Get current Bitcoin mempool statistics",
+        "description": "Returns a point-in-time public mempool view. It is operational state, not a complete historical series.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Current mempool statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MempoolSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/fees/recommended": {
+      "get": {
+        "operationId": "mempoolGetRecommendedFees",
+        "summary": "Get current Bitcoin fee-rate estimates",
+        "description": "Returns fee-rate estimates in satoshis per virtual byte. Estimates are not confirmation guarantees.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Recommended fee rates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendedFees"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/difficulty-adjustment": {
+      "get": {
+        "operationId": "mempoolGetDifficultyAdjustment",
+        "summary": "Get the current difficulty-adjustment estimate",
+        "description": "Returns a changing estimate for the current adjustment period. Label it as an estimate and include the retrieval time.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "responses": {
+          "200": {
+            "description": "Difficulty-adjustment estimate",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DifficultyAdjustment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/mining/hashrate/{timePeriod}": {
+      "get": {
+        "operationId": "mempoolGetMiningHashrate",
+        "summary": "Get estimated Bitcoin mining hashrate history",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "timePeriod",
+            "in": "path",
+            "required": true,
+            "description": "History window supported by mempool.space.",
+            "schema": {
+              "type": "string",
+              "enum": ["1m", "3m", "6m", "1y", "2y", "3y"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hashrate and difficulty observations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HashrateHistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/mining/blocks/fees/{timePeriod}": {
+      "get": {
+        "operationId": "mempoolGetMiningBlockFees",
+        "summary": "Get historical block-fee statistics",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "timePeriod",
+            "in": "path",
+            "required": true,
+            "description": "Block-fee history window supported by mempool.space.",
+            "schema": {
+              "type": "string",
+              "enum": ["24h", "3d", "1w", "1m", "3m", "6m", "1y", "2y", "3y"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block-fee history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlockFeePoint"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Hash": {
+        "type": "string",
+        "pattern": "^[A-Fa-f0-9]{64}$"
+      },
+      "Block": {
+        "type": "object",
+        "properties": {
+          "id": {"$ref": "#/components/schemas/Hash"},
+          "height": {"type": "integer"},
+          "version": {"type": "integer"},
+          "timestamp": {"type": "integer", "description": "Unix timestamp in seconds."},
+          "tx_count": {"type": "integer"},
+          "size": {"type": "integer", "description": "Serialized size in bytes."},
+          "weight": {"type": "integer", "description": "Block weight units."},
+          "difficulty": {"type": "number"},
+          "merkle_root": {"$ref": "#/components/schemas/Hash"},
+          "previousblockhash": {"$ref": "#/components/schemas/Hash"},
+          "mediantime": {"type": "integer", "description": "Median-time-past Unix timestamp in seconds."},
+          "nonce": {"type": "integer"},
+          "bits": {"type": "integer"}
+        },
+        "additionalProperties": true
+      },
+      "RecentBlock": {
+        "allOf": [
+          {"$ref": "#/components/schemas/Block"},
+          {
+            "type": "object",
+            "properties": {
+              "extras": {
+                "type": "object",
+                "description": "mempool.space estimates and block economics; field availability can change.",
+                "properties": {
+                  "reward": {"type": "integer", "description": "Block subsidy plus fees in satoshis."},
+                  "totalFees": {"type": "integer", "description": "Total transaction fees in satoshis."},
+                  "medianFee": {"type": "number", "description": "Median fee rate reported by the service."},
+                  "feeRange": {"type": "array", "items": {"type": "number"}},
+                  "avgFee": {"type": "number"},
+                  "avgFeeRate": {"type": "number"},
+                  "virtualSize": {"type": "number"},
+                  "totalInputs": {"type": "integer"},
+                  "totalOutputs": {"type": "integer"}
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        ]
+      },
+      "TransactionStatus": {
+        "type": "object",
+        "required": ["confirmed"],
+        "properties": {
+          "confirmed": {"type": "boolean"},
+          "block_height": {"type": "integer"},
+          "block_hash": {"$ref": "#/components/schemas/Hash"},
+          "block_time": {"type": "integer", "description": "Unix timestamp in seconds."}
+        },
+        "additionalProperties": true
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "txid": {"$ref": "#/components/schemas/Hash"},
+          "version": {"type": "integer"},
+          "locktime": {"type": "integer"},
+          "size": {"type": "integer", "description": "Serialized size in bytes."},
+          "weight": {"type": "integer", "description": "Transaction weight units."},
+          "fee": {"type": "integer", "description": "Fee in satoshis."},
+          "status": {"$ref": "#/components/schemas/TransactionStatus"},
+          "vin": {"type": "array", "items": {"$ref": "#/components/schemas/TransactionInput"}},
+          "vout": {"type": "array", "items": {"$ref": "#/components/schemas/TransactionOutput"}}
+        },
+        "additionalProperties": true
+      },
+      "AddressStats": {
+        "type": "object",
+        "properties": {
+          "funded_txo_count": {"type": "integer"},
+          "funded_txo_sum": {"type": "integer", "description": "Total funded value in satoshis."},
+          "spent_txo_count": {"type": "integer"},
+          "spent_txo_sum": {"type": "integer", "description": "Total spent value in satoshis."},
+          "tx_count": {"type": "integer"}
+        },
+        "additionalProperties": true
+      },
+      "AddressSummary": {
+        "type": "object",
+        "properties": {
+          "address": {"type": "string"},
+          "chain_stats": {"$ref": "#/components/schemas/AddressStats"},
+          "mempool_stats": {"$ref": "#/components/schemas/AddressStats"}
+        },
+        "additionalProperties": true
+      },
+      "AddressValidation": {
+        "type": "object",
+        "properties": {
+          "isvalid": {"type": "boolean"},
+          "address": {"type": "string"},
+          "scriptPubKey": {"type": "string"},
+          "isscript": {"type": "boolean"},
+          "iswitness": {"type": "boolean"},
+          "witness_version": {"type": "integer"},
+          "witness_program": {"type": "string"}
+        },
+        "additionalProperties": true
+      },
+      "MempoolSummary": {
+        "type": "object",
+        "properties": {
+          "count": {"type": "integer", "description": "Number of transactions in this mempool view."},
+          "vsize": {"type": "integer", "description": "Aggregate virtual size in vbytes."},
+          "total_fee": {"type": "integer", "description": "Aggregate transaction fees in satoshis."},
+          "fee_histogram": {
+            "type": "array",
+            "description": "Fee-rate buckets returned by the service.",
+            "items": {
+              "type": "array",
+              "items": {"type": "number"}
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "RecommendedFees": {
+        "type": "object",
+        "properties": {
+          "fastestFee": {"type": "number", "description": "Estimated sat/vB for the fastest target."},
+          "halfHourFee": {"type": "number", "description": "Estimated sat/vB for about 30 minutes."},
+          "hourFee": {"type": "number", "description": "Estimated sat/vB for about one hour."},
+          "economyFee": {"type": "number", "description": "Economy estimate in sat/vB."},
+          "minimumFee": {"type": "number", "description": "Estimated minimum relay fee in sat/vB."}
+        },
+        "additionalProperties": true
+      },
+      "DifficultyAdjustment": {
+        "type": "object",
+        "properties": {
+          "progressPercent": {"type": "number"},
+          "difficultyChange": {"type": "number", "description": "Estimated percentage difficulty change."},
+          "estimatedRetargetDate": {"type": "integer", "description": "Estimated retarget Unix timestamp in milliseconds."},
+          "remainingBlocks": {"type": "integer"},
+          "remainingTime": {"type": "integer", "description": "Estimated milliseconds remaining."},
+          "previousRetarget": {"type": "number", "description": "Previous adjustment percentage."},
+          "previousTime": {"type": "integer"},
+          "nextRetargetHeight": {"type": "integer"},
+          "timeAvg": {"type": "integer", "description": "Average block interval in milliseconds."},
+          "adjustedTimeAvg": {"type": "integer", "description": "Adjusted average block interval in milliseconds."},
+          "timeOffset": {"type": "integer", "description": "Time offset in milliseconds."},
+          "expectedBlocks": {"type": "number"}
+        },
+        "additionalProperties": true
+      },
+      "HashratePoint": {
+        "type": "object",
+        "properties": {
+          "timestamp": {"type": "integer", "description": "Unix timestamp in seconds."},
+          "avgHashrate": {"type": "number", "description": "Estimated average hashes per second."}
+        },
+        "additionalProperties": true
+      },
+      "DifficultyPoint": {
+        "type": "object",
+        "properties": {
+          "time": {"type": "integer", "description": "Unix timestamp in seconds."},
+          "height": {"type": "integer"},
+          "difficulty": {"type": "number"},
+          "adjustment": {"type": "number"}
+        },
+        "additionalProperties": true
+      },
+      "HashrateHistory": {
+        "type": "object",
+        "properties": {
+          "hashrates": {"type": "array", "items": {"$ref": "#/components/schemas/HashratePoint"}},
+          "difficulty": {"type": "array", "items": {"$ref": "#/components/schemas/DifficultyPoint"}},
+          "currentHashrate": {"type": "number"},
+          "currentDifficulty": {"type": "number"}
+        },
+        "additionalProperties": true
+      },
+      "BlockFeePoint": {
+        "type": "object",
+        "properties": {
+          "avgHeight": {"type": "integer"},
+          "timestamp": {"type": "integer", "description": "Unix timestamp in seconds."},
+          "avgFees": {"type": "number", "description": "Average block fees in satoshis."},
+          "USD": {"type": "number", "description": "Dollar conversion field returned by mempool.space."}
+        },
+        "additionalProperties": true
+      },
+      "TransactionInput": {
+        "type": "object",
+        "properties": {
+          "txid": {"type": "string"},
+          "vout": {"type": "integer"},
+          "scriptsig": {"type": "string"},
+          "scriptsig_asm": {"type": "string"},
+          "is_coinbase": {"type": "boolean"},
+          "sequence": {"type": "integer"}
+        },
+        "additionalProperties": true
+      },
+      "TransactionOutput": {
+        "type": "object",
+        "properties": {
+          "scriptpubkey": {"type": "string"},
+          "scriptpubkey_asm": {"type": "string"},
+          "scriptpubkey_type": {"type": "string"},
+          "scriptpubkey_address": {"type": "string"},
+          "value": {"type": "integer", "description": "Output value in satoshis."}
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

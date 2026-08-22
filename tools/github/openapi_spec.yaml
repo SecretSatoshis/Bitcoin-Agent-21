@@ -1,0 +1,136 @@
+openapi: 3.1.0
+info:
+  title: GitHub Public Repository Reader
+  version: "2026-03-10"
+  description: Read small files and list directories in public GitHub repositories. This Action is intentionally read-only and unauthenticated.
+  license:
+    name: MIT
+    identifier: MIT
+externalDocs:
+  description: GitHub REST API documentation for repository contents
+  url: https://docs.github.com/en/rest/repos/contents
+servers:
+  - url: https://api.github.com
+    description: GitHub REST API
+security: []
+paths:
+  /repos/{owner}/{repo}/contents/{path}:
+    get:
+      operationId: getRepoContent
+      summary: Read a small public file or list a directory
+      description: Returns a directory listing or a small file with base64 content. Keep responses below the ChatGPT Action payload limit; use '.' for the repository root.
+      x-openai-isConsequential: false
+      parameters:
+        - name: owner
+          in: path
+          required: true
+          description: GitHub account or organization that owns the public repository.
+          schema:
+            type: string
+            minLength: 1
+        - name: repo
+          in: path
+          required: true
+          description: Public repository name without the owner prefix.
+          schema:
+            type: string
+            minLength: 1
+        - name: path
+          in: path
+          required: true
+          description: URL-encoded file or directory path. Use '.' to list the repository root.
+          schema:
+            type: string
+            minLength: 1
+        - name: ref
+          in: query
+          required: false
+          description: Branch name, tag, or commit SHA. Omit to use the repository's default branch.
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        "200":
+          description: A directory listing or file object.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/DirectoryListing"
+                  - $ref: "#/components/schemas/FileContent"
+        "301":
+          description: The repository was moved permanently.
+        "403":
+          description: Access was forbidden or the anonymous API rate limit was exceeded.
+        "404":
+          description: The repository, ref, or path was not found.
+        "422":
+          description: GitHub could not process the request.
+components:
+  schemas:
+    DirectoryEntry:
+      type: object
+      description: One item in a GitHub repository directory listing.
+      properties:
+        type:
+          type: string
+          enum: [file, dir, symlink, submodule]
+        name:
+          type: string
+        path:
+          type: string
+        sha:
+          type: string
+        size:
+          type: integer
+          minimum: 0
+        url:
+          type: string
+          format: uri
+        html_url:
+          type: string
+          format: uri
+        download_url:
+          type: [string, "null"]
+          format: uri
+      required: [type, name, path, sha, size, url, html_url, download_url]
+    DirectoryListing:
+      type: array
+      description: Repository directory entries. GitHub caps this endpoint at 1,000 items.
+      items:
+        $ref: "#/components/schemas/DirectoryEntry"
+    FileContent:
+      type: object
+      description: Metadata and optional inline content for one public repository file.
+      properties:
+        type:
+          type: string
+          enum: [file, symlink, submodule]
+        name:
+          type: string
+        path:
+          type: string
+        sha:
+          type: string
+        size:
+          type: integer
+          minimum: 0
+        url:
+          type: string
+          format: uri
+        html_url:
+          type: string
+          format: uri
+        git_url:
+          type: [string, "null"]
+          format: uri
+        download_url:
+          type: [string, "null"]
+          format: uri
+        encoding:
+          type: [string, "null"]
+          enum: [base64, none, null]
+        content:
+          type: [string, "null"]
+          description: Base64 file content when GitHub includes it. Content can be empty when encoding is none.
+      required: [type, name, path, sha, size, url, html_url]

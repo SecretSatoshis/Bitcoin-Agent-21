@@ -1,0 +1,325 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Polymarket Public Market Data (Read Only)",
+    "version": "1.0.0",
+    "description": "A curated, unauthenticated, GET-only subset of the public Polymarket Gamma API for finding and inspecting relevant prediction markets. It cannot authenticate a wallet, access a user's positions, place or cancel orders, trade, or modify external data."
+  },
+  "servers": [
+    {
+      "url": "https://gamma-api.polymarket.com",
+      "description": "Public Polymarket Gamma API"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/tags/slug/{slug}": {
+      "get": {
+        "operationId": "polymarketGetTagBySlug",
+        "summary": "Resolve an exact public Polymarket tag slug",
+        "description": "Resolve a concise topical slug before market discovery. A successful tag lookup does not by itself establish relevance or market quality.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Concise candidate topic slug to validate, such as bitcoin. If it does not resolve, do not invent a tag ID.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "maxLength": 80
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tag details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Tag"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/keyset": {
+      "get": {
+        "operationId": "polymarketListRelevantMarkets",
+        "summary": "List a small tagged set of public prediction markets",
+        "description": "Find candidate markets using an exact tag ID resolved by the tag operation. Keep only Bitcoin, crypto, economic, political, regulatory, liquidity, or macro markets with a material and explainable Bitcoin connection. Liquidity and volume filters are optional aids, not universal quality thresholds.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tag_id",
+            "in": "query",
+            "required": true,
+            "description": "A one-item array containing the exact numeric tag ID returned by polymarketGetTagBySlug.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {"type": "integer", "minimum": 1},
+              "minItems": 1,
+              "maxItems": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Small response-size cap. Start with the narrowest useful result set.",
+            "schema": {"type": "integer", "minimum": 1, "maximum": 5, "default": 3}
+          },
+          {
+            "name": "closed",
+            "in": "query",
+            "description": "Whether to request closed markets. Keep false for current expectations unless the user explicitly asks for history.",
+            "schema": {"type": "boolean", "default": false}
+          },
+          {
+            "name": "liquidity_num_min",
+            "in": "query",
+            "description": "Optional adaptive minimum for the API's reported liquidity value. Do not apply a fixed universal cutoff; choose only after considering the scale and peers of the relevant market set.",
+            "schema": {"type": "number", "minimum": 0}
+          },
+          {
+            "name": "volume_num_min",
+            "in": "query",
+            "description": "Optional adaptive minimum for the API's reported cumulative volume value. Do not apply a fixed universal cutoff; compare relevant candidates first.",
+            "schema": {"type": "number", "minimum": 0}
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Optional live API field used for candidate ordering.",
+            "schema": {"type": "string", "enum": ["volumeNum", "liquidityNum"]}
+          },
+          {
+            "name": "ascending",
+            "in": "query",
+            "description": "Sort direction for the selected order field. Use false when seeking the most liquid or highest-volume candidates.",
+            "schema": {"type": "boolean", "default": false}
+          },
+          {
+            "name": "related_tags",
+            "in": "query",
+            "description": "Optionally include markets under related tags. Keep false unless broader discovery is necessary and manually recheck relevance.",
+            "schema": {"type": "boolean", "default": false}
+          },
+          {
+            "name": "include_tag",
+            "in": "query",
+            "description": "Include tag metadata with each candidate for relevance review.",
+            "schema": {"type": "boolean", "default": true}
+          },
+          {
+            "name": "after_cursor",
+            "in": "query",
+            "description": "Opaque cursor returned by a prior keyset response. Do not invent or alter it.",
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated candidate markets",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/MarketPage"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/{id}": {
+      "get": {
+        "operationId": "polymarketGetMarketById",
+        "summary": "Get a prediction market by exact ID",
+        "description": "Inspect one public market's question, outcomes, prices, status, activity, spread, and resolution source.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Exact public Polymarket market ID returned by the API.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Market"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/slug/{slug}": {
+      "get": {
+        "operationId": "polymarketGetMarketBySlug",
+        "summary": "Get a prediction market by exact slug",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "description": "Exact public market slug returned by Polymarket.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 250
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Market"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/markets/{id}/tags": {
+      "get": {
+        "operationId": "polymarketGetMarketTags",
+        "summary": "Get the tags assigned to a prediction market",
+        "description": "Use tags as supporting relevance metadata, not as proof that a market is useful or Bitcoin-related.",
+        "security": [],
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Exact public Polymarket market ID returned by the API.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market tags",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Tag"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NumericValue": {
+        "oneOf": [
+          {"type": "number"},
+          {"type": "string", "description": "Numeric value encoded as a string by the upstream API."}
+        ]
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "label": {"type": ["string", "null"]},
+          "slug": {"type": ["string", "null"]},
+          "createdAt": {"type": ["string", "null"], "format": "date-time"},
+          "updatedAt": {"type": ["string", "null"], "format": "date-time"}
+        },
+        "additionalProperties": true
+      },
+      "EventSummary": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "slug": {"type": "string"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "resolutionSource": {"type": "string"},
+          "startDate": {"type": "string", "format": "date-time"},
+          "endDate": {"type": "string", "format": "date-time"},
+          "active": {"type": "boolean"},
+          "closed": {"type": "boolean"},
+          "liquidity": {"type": "number"},
+          "volume": {"type": "number"},
+          "updatedAt": {"type": "string", "format": "date-time"}
+        },
+        "additionalProperties": true
+      },
+      "Market": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "question": {"type": "string"},
+          "slug": {"type": "string"},
+          "description": {"type": "string"},
+          "resolutionSource": {"type": "string"},
+          "startDate": {"type": "string", "format": "date-time"},
+          "endDate": {"type": "string", "format": "date-time"},
+          "active": {"type": "boolean"},
+          "closed": {"type": "boolean"},
+          "acceptingOrders": {"type": "boolean"},
+          "restricted": {"type": "boolean"},
+          "updatedAt": {"type": "string", "format": "date-time"},
+          "outcomes": {"type": "string", "description": "JSON-encoded ordered array of outcome labels."},
+          "outcomePrices": {"type": "string", "description": "JSON-encoded ordered array of prices aligned by position with outcomes."},
+          "liquidity": {"$ref": "#/components/schemas/NumericValue"},
+          "liquidityNum": {"type": "number"},
+          "volume": {"$ref": "#/components/schemas/NumericValue"},
+          "volumeNum": {"type": "number"},
+          "volume24hr": {"type": "number"},
+          "volume1wk": {"type": "number"},
+          "spread": {"type": "number"},
+          "bestBid": {"type": "number"},
+          "bestAsk": {"type": "number"},
+          "lastTradePrice": {"type": "number"},
+          "competitive": {"type": "number"},
+          "events": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/EventSummary"}
+          },
+          "tags": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/Tag"}
+          }
+        },
+        "additionalProperties": true
+      },
+      "MarketPage": {
+        "type": "object",
+        "properties": {
+          "markets": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/Market"}
+          },
+          "next_cursor": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
