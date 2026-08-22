@@ -1,38 +1,14 @@
-# Agent 21 — Bitcoin AI Agent
+# Agent 21: Bitcoin Intelligence
 
 **Open-source ChatGPT agent for Bitcoin research and analysis, maintained by [Secret Satoshis](https://newsletter.secretsatoshis.com/).**
 
 Agent 21 combines curated Bitcoin research with live market and on-chain series from the
 [Bitcoin Research Kit (BRK)](https://github.com/bitcoinresearchkit/brk), current public
-Bitcoin network state from [Mempool.space](https://mempool.space/), and selectively used
-prediction-market context from [Polymarket](https://polymarket.com/). It is designed to
-explain Bitcoin from first principles, distinguish evidence from interpretation, and
-surface risks alongside opportunities.
+Bitcoin network state from [Mempool.space](https://mempool.space/), and prediction-market
+context from [Polymarket](https://polymarket.com/).
 
-## What Goes In and What Comes Out
-
-Inputs can include:
-
-- a user's Bitcoin question or requested analysis
-- uploaded Secret Satoshis research
-- live BRK series requested through a read-only Action
-- current public Bitcoin network, block, transaction, fee, mining, or user-requested
-  address data through a read-only Mempool.space Action
-- relevant public prediction-market data through a read-only Polymarket Action
-- small public repository files requested through a read-only GitHub Action
-- user-provided files supported by ChatGPT
-
-Outputs can include:
-
-- Bitcoin explanations and research synthesis
-- current or historical market and on-chain analysis
-- current network-state and public blockchain lookup results
-- carefully qualified Bitcoin-relevant market-implied expectations
-- derived metrics, tables, and charts
-- analysis files generated with Code Interpreter & Data Analysis
-
-Agent 21 does not provide standalone analysis or recommendations for alt-coins, tokens,
-NFTs, or DeFi.
+Learn more in the [Agent 21 FAQ](https://newsletter.secretsatoshis.com/p/agent-21) on
+Substack.
 
 ## Public Repository Layout
 
@@ -47,10 +23,6 @@ NFTs, or DeFi.
 | `tools/github/openapi_spec.yaml` | Read-only GitHub OpenAPI schema used by the GPT Action |
 | `tools/brk_api/openapi_spec.json` | Full upstream BRK OpenAPI snapshot for development reference |
 | `PRIVACY.md` | Privacy disclosure for the public GPT and its external Actions |
-
-The deployed GPT uses the smaller BRK Action schema, not the full development snapshot.
-Keeping the Action surface narrow improves tool selection and stays within ChatGPT Action
-response limits.
 
 ## How It Runs
 
@@ -67,18 +39,10 @@ Agent 21 runs as a custom GPT in ChatGPT:
 7. Code Interpreter & Data Analysis performs calculations, creates charts, and writes
    requested artifacts after data has been retrieved.
 
-See [the ChatGPT deployment guide](platforms/chatgpt/README.md) for the exact setup and
-Preview tests.
-
 ## Tool Contracts
 
 - The full BRK snapshot and the GPT-specific subset are aligned to upstream BRK
   `v0.11.2`.
-- All four Action schemas use OpenAPI 3.1, HTTPS, explicit unauthenticated security, unique
-  operation IDs, and read-only GET operations.
-- The ChatGPT-specific Mempool.space and Polymarket schemas keep path parameters inline
-  and give every object response named properties for compatibility with the current GPT
-  editor importer.
 - The Mempool.space Action cannot broadcast or accelerate transactions and exposes no
   wallet operations. Public address lookup is limited to validation and summary
   statistics, with privacy and attribution safeguards.
@@ -88,10 +52,8 @@ Preview tests.
   dollar threshold.
 - The GitHub Action is deliberately limited to the repository contents endpoint. It is
   appropriate for small public files and directories, not large blobs.
-- Action schemas should be retested in the GPT editor whenever BRK, Mempool.space,
-  Polymarket, GitHub, or ChatGPT Action requirements change.
 
-## Main Surfaces
+## Links and Resources
 
 | Surface | Link |
 |---|---|
