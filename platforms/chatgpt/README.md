@@ -68,14 +68,19 @@ Upload these five public Markdown files:
 
 Then upload these 8 PDFs from the private deployment bundle:
 
-- `start_here_secret_satoshis_faq.pdf`
-- `bitcoin_ai_agent_21.pdf`
-- `welcome_to_bitcoin.pdf`
-- `bitcoin_technology_overview.pdf`
-- `bitcoin_investment_thesis.pdf`
-- `should_i_buy_bitcoin.pdf`
-- `bitcoin_2025_year_end_review.pdf`
-- `bitcoin_2026_price_outlook.pdf`
+| File | Source post |
+|---|---|
+| `start_here_secret_satoshis_faq.pdf` | Start Here |
+| `bitcoin_ai_agent_21.pdf` | Agent 21 - Bitcoin AI Agent |
+| `welcome_to_bitcoin.pdf` | Welcome To Bitcoin |
+| `bitcoin_technology_overview.pdf` | Bitcoin Technology Overview |
+| `bitcoin_investment_thesis.pdf` | Bitcoin Investment Thesis |
+| `should_i_buy_bitcoin.pdf` | Should I buy bitcoin? |
+| `bitcoin_2025_year_end_review.pdf` | Bitcoin 2025 Year End Review |
+| `bitcoin_2026_price_outlook.pdf` | Bitcoin 2026 Price Outlook |
+
+Filenames do not track post retitles; `agent21_knowledge_index.md` §5 carries the slug for
+each one.
 
 **Expected total: 13 Knowledge files** (5 Markdown and 8 PDF), below ChatGPT's current
 [20-file GPT Knowledge limit](https://help.openai.com/en/articles/8554397-creating-a-gpt).

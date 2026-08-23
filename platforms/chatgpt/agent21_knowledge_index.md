@@ -10,6 +10,8 @@
 |---|---|---|
 | Website | Main Secret Satoshis site | [secretsatoshis.com](https://www.secretsatoshis.com/) |
 | Newsletter | Published research, guides, and market analysis | [Secret Satoshis on Substack](https://newsletter.secretsatoshis.com/) |
+| Market Dashboard | Current Bitcoin market data, valuation models, and cycle context; updated daily | [dashboard.secretsatoshis.com](https://dashboard.secretsatoshis.com/) |
+| Chart Library | Interactive charts for price, on-chain activity, supply, and valuation | [charts.secretsatoshis.com](https://charts.secretsatoshis.com/) |
 | GitHub | Public repositories | [github.com/SecretSatoshis](https://github.com/SecretSatoshis) |
 | X | Public commentary and updates | [x.com/SecretSatoshis](https://x.com/SecretSatoshis) |
 | ChatGPT Agent | Recorded public Agent 21 link; availability and live version require verification | [Agent 21 on ChatGPT](https://chatgpt.com/g/g-BZXtVdU6M-agent-21) |
@@ -52,25 +54,37 @@ These PDFs are intentionally absent from the public repository. Their filenames,
 document versions, publication/as-of dates, review status, and live upload state must be
 verified from the private deployment bundle.
 
+Filenames are stable identifiers and do not track post retitles. The source column is the
+authority on which published post each file was exported from — check it before replacing
+a file, because two filenames no longer resemble their post's current title.
+
 ### Platform and agent
 
-- `start_here_secret_satoshis_faq.pdf`
-- `bitcoin_ai_agent_21.pdf`
+| File | Source post | Current title |
+|---|---|---|
+| `start_here_secret_satoshis_faq.pdf` | `/p/start-here` | Start Here |
+| `bitcoin_ai_agent_21.pdf` | `/p/agent-21` | Agent 21 - Bitcoin AI Agent |
 
 ### Bitcoin foundations
 
-- `welcome_to_bitcoin.pdf`
-- `bitcoin_technology_overview.pdf`
+| File | Source post | Current title |
+|---|---|---|
+| `welcome_to_bitcoin.pdf` | `/p/welcome-to-bitcoin` | Welcome To Bitcoin |
+| `bitcoin_technology_overview.pdf` | `/p/bitcoin-technology` | Bitcoin Technology Overview |
 
 ### Investment and decision frameworks
 
-- `bitcoin_investment_thesis.pdf`
-- `should_i_buy_bitcoin.pdf`
+| File | Source post | Current title |
+|---|---|---|
+| `bitcoin_investment_thesis.pdf` | `/p/bitcoin-ahead-of-the-curve` | Bitcoin Investment Thesis |
+| `should_i_buy_bitcoin.pdf` | `/p/should-i-buy-bitcoin` | Should I buy bitcoin? |
 
 ### Market and cycle
 
-- `bitcoin_2025_year_end_review.pdf`
-- `bitcoin_2026_price_outlook.pdf`
+| File | Source post | Current title |
+|---|---|---|
+| `bitcoin_2025_year_end_review.pdf` | `/p/bitcoin-2025-year-end-review` | Bitcoin 2025 Year End Review |
+| `bitcoin_2026_price_outlook.pdf` | `/p/bitcoin-2026-price-outlook` | Bitcoin 2026 Price Outlook |
 
 ## 6. Expected inventory total
 
