@@ -70,8 +70,8 @@ Then upload these 8 PDFs from the private deployment bundle:
 
 | File | Source post |
 |---|---|
-| `start_here_secret_satoshis_faq.pdf` | Start Here |
-| `bitcoin_ai_agent_21.pdf` | Agent 21 - Bitcoin AI Agent |
+| `Start Here - Secret Satoshis.pdf` | Start Here |
+| `Bitcoin AI Agent 21 - Secret Satoshis.pdf` | Agent 21 - Bitcoin AI Agent |
 | `welcome_to_bitcoin.pdf` | Welcome To Bitcoin |
 | `bitcoin_technology_overview.pdf` | Bitcoin Technology Overview |
 | `bitcoin_investment_thesis.pdf` | Bitcoin Investment Thesis |

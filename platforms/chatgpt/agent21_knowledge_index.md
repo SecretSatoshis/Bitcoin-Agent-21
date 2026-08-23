@@ -54,16 +54,21 @@ These PDFs are intentionally absent from the public repository. Their filenames,
 document versions, publication/as-of dates, review status, and live upload state must be
 verified from the private deployment bundle.
 
-Filenames are stable identifiers and do not track post retitles. The source column is the
-authority on which published post each file was exported from — check it before replacing
-a file, because two filenames no longer resemble their post's current title.
+The source column is the authority on which published post each file was exported from.
+Filenames do not track post titles: Substack exports as `{title} - Secret Satoshis.pdf`, and
+even that lags a retitle — the Agent 21 export is still named for the old title. Always match
+on the source post, never on the filename.
+
+Two naming conventions are live. The two files re-exported after the August rewrites use the
+Substack convention; the remaining six predate it and keep their snake_case names. Expect
+those to change when they are next re-exported.
 
 ### Platform and agent
 
 | File | Source post | Current title |
 |---|---|---|
-| `start_here_secret_satoshis_faq.pdf` | `/p/start-here` | Start Here |
-| `bitcoin_ai_agent_21.pdf` | `/p/agent-21` | Agent 21 - Bitcoin AI Agent |
+| `Start Here - Secret Satoshis.pdf` | `/p/start-here` | Start Here |
+| `Bitcoin AI Agent 21 - Secret Satoshis.pdf` | `/p/agent-21` | Agent 21 - Bitcoin AI Agent |
 
 ### Bitcoin foundations
 
