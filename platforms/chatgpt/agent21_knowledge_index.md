@@ -67,23 +67,16 @@ verified from the private deployment bundle.
 - `bitcoin_investment_thesis.pdf`
 - `should_i_buy_bitcoin.pdf`
 
-### On-chain analysis
-
-- `bitcoin_onchain_fundamentals.pdf`
-- `bitcoin_onchain_network_health.pdf`
-- `bitcoin_onchain_price_analysis.pdf`
-
 ### Market and cycle
 
-- `bitcoin_market_price_analysis.pdf`
 - `bitcoin_2025_year_end_review.pdf`
 - `bitcoin_2026_price_outlook.pdf`
 
 ## 6. Expected inventory total
 
 - Public Markdown Knowledge files: 5
-- Private PDF Knowledge files: 12
-- Expected GPT Knowledge total: 17
+- Private PDF Knowledge files: 8
+- Expected GPT Knowledge total: 13
 
-The total is a manifest count only. A live deployment is verified only after all 17 files
+The total is a manifest count only. A live deployment is verified only after all 13 files
 are visible in the GPT editor and pass the Preview tests in `README.md`.

@@ -15,7 +15,7 @@ currently matches the repository.
   publish new GPTs; an existing GPT may still be editable when its current permissions allow it.
 - A non-Pro model that supports custom Actions at deployment time
 - Workspace permission for all four Action domains
-- All 12 private PDF files listed below
+- All 8 private PDF files listed below
 
 ChatGPT product availability, eligible models, and workspace publishing permissions can
 change. Recheck them in the GPT editor and the current OpenAI documentation for
@@ -66,7 +66,7 @@ Upload these five public Markdown files:
 - `platforms/chatgpt/knowledge/mempool-reference.md`
 - `platforms/chatgpt/knowledge/polymarket-reference.md`
 
-Then upload these 12 PDFs from the private deployment bundle:
+Then upload these 8 PDFs from the private deployment bundle:
 
 - `start_here_secret_satoshis_faq.pdf`
 - `bitcoin_ai_agent_21.pdf`
@@ -74,14 +74,10 @@ Then upload these 12 PDFs from the private deployment bundle:
 - `bitcoin_technology_overview.pdf`
 - `bitcoin_investment_thesis.pdf`
 - `should_i_buy_bitcoin.pdf`
-- `bitcoin_onchain_fundamentals.pdf`
-- `bitcoin_onchain_network_health.pdf`
-- `bitcoin_onchain_price_analysis.pdf`
-- `bitcoin_market_price_analysis.pdf`
 - `bitcoin_2025_year_end_review.pdf`
 - `bitcoin_2026_price_outlook.pdf`
 
-**Expected total: 17 Knowledge files** (5 Markdown and 12 PDF), below ChatGPT's current
+**Expected total: 13 Knowledge files** (5 Markdown and 8 PDF), below ChatGPT's current
 [20-file GPT Knowledge limit](https://help.openai.com/en/articles/8554397-creating-a-gpt).
 The private PDFs are not stored in this public repository; verify their exact filenames,
 versions, and upload state before deployment.
@@ -135,7 +131,7 @@ and the page returns successfully:
 2. Confirm the privacy policy URL is publicly reachable.
 3. Enter the public fields and capability settings from section 1.
 4. Paste the Instructions and all four Action schemas.
-5. Upload all 17 expected Knowledge files.
+5. Upload all 13 expected Knowledge files.
 6. Run the Preview test matrix below.
 7. Compare the live editor against this manifest and record the deployed version and date.
 8. Update or publish the GPT only after every required test passes.
