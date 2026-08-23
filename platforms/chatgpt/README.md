@@ -74,7 +74,7 @@ Then upload these 8 PDFs from the private deployment bundle:
 | `Bitcoin AI Agent 21 - Secret Satoshis.pdf` | Agent 21 - Bitcoin AI Agent |
 | `welcome_to_bitcoin.pdf` | Welcome To Bitcoin |
 | `bitcoin_technology_overview.pdf` | Bitcoin Technology Overview |
-| `bitcoin_investment_thesis.pdf` | Bitcoin Investment Thesis |
+| `bitcoin_investment_thesis.pdf` | Bitcoin Adoption Thesis |
 | `should_i_buy_bitcoin.pdf` | Should I buy bitcoin? |
 | `bitcoin_2025_year_end_review.pdf` | Bitcoin 2025 Year End Review |
 | `bitcoin_2026_price_outlook.pdf` | Bitcoin 2026 Price Outlook |

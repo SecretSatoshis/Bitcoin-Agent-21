@@ -81,7 +81,7 @@ those to change when they are next re-exported.
 
 | File | Source post | Current title |
 |---|---|---|
-| `bitcoin_investment_thesis.pdf` | `/p/bitcoin-ahead-of-the-curve` | Bitcoin Investment Thesis |
+| `bitcoin_investment_thesis.pdf` | `/p/bitcoin-ahead-of-the-curve` | Bitcoin Adoption Thesis |
 | `should_i_buy_bitcoin.pdf` | `/p/should-i-buy-bitcoin` | Should I buy bitcoin? |
 
 ### Market and cycle
