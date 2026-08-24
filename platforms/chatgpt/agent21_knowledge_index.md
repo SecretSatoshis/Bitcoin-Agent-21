@@ -1,7 +1,7 @@
 # Agent 21 — ChatGPT Knowledge Index
 
 > **Status:** Expected deployment inventory, not proof of the live GPT configuration.
-> Repository manifest version 1.2, reviewed 2026-08-22. Verify every file and capability
+> Repository manifest version 1.3, reviewed 2026-08-24. Verify every file and capability
 > in the GPT editor before publishing.
 
 ## 1. Secret Satoshis surfaces
@@ -47,6 +47,10 @@ only records the resources the deployment is expected to contain.
 | `SecretSatoshis/Bitcoin-Agent-21` | Agent identity, prompt, Knowledge guides, and Action contracts | [Bitcoin-Agent-21](https://github.com/SecretSatoshis/Bitcoin-Agent-21) |
 | `SecretSatoshis/Bitcoin-Report-Library` | Public report code and curated report datasets | [Bitcoin-Report-Library](https://github.com/SecretSatoshis/Bitcoin-Report-Library) |
 | `SecretSatoshis/Bitcoin-Chart-Library` | Chart logic, definitions, and visualization assets | [Bitcoin-Chart-Library](https://github.com/SecretSatoshis/Bitcoin-Chart-Library) |
+| `SecretSatoshis/Bitcoin-Investment-Strategy` | Runnable Bitcoin savings-plan notebook and supporting data pipeline | [Bitcoin-Investment-Strategy](https://github.com/SecretSatoshis/Bitcoin-Investment-Strategy) |
+| `SecretSatoshis/Secret-Satoshis-Website` | Main Secret Satoshis website and landing-page source | [Secret-Satoshis-Website](https://github.com/SecretSatoshis/Secret-Satoshis-Website) |
+| `SecretSatoshis/Trey-Brunson-Website` | TreyBrunson.com personal website and landing-page source | [Trey-Brunson-Website](https://github.com/SecretSatoshis/Trey-Brunson-Website) |
+| `SecretSatoshis/.github` | Secret Satoshis public GitHub profile and repository directory | [SecretSatoshis profile](https://github.com/SecretSatoshis/.github) |
 
 ## 5. Expected private Knowledge files
 
