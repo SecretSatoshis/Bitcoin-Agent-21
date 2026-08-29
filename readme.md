@@ -22,6 +22,7 @@ Substack.
 | `platforms/chatgpt/tools/polymarket/openapi.json` | Read-only Polymarket OpenAPI subset used by the GPT Action |
 | `tools/github/openapi_spec.yaml` | Read-only GitHub OpenAPI schema used by the GPT Action |
 | `tools/brk_api/openapi_spec.json` | Full upstream BRK OpenAPI snapshot for development reference |
+| `scripts/check_dependency_contract.py` | CI check that the public data-analysis library pins match the installed environment |
 | `PRIVACY.md` | Privacy disclosure for the public GPT and its external Actions |
 
 ## How It Runs

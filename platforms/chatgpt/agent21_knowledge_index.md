@@ -8,7 +8,7 @@
 
 | Surface | Purpose | Link |
 |---|---|---|
-| Website | Main Secret Satoshis site | [secretsatoshis.com](https://www.secretsatoshis.com/) |
+| Website | Main Secret Satoshis site | [secretsatoshis.com](https://secretsatoshis.com/) |
 | Newsletter | Published research, guides, and market analysis | [Secret Satoshis on Substack](https://newsletter.secretsatoshis.com/) |
 | Market Dashboard | Current Bitcoin market data, valuation models, and cycle context; updated daily | [dashboard.secretsatoshis.com](https://dashboard.secretsatoshis.com/) |
 | Chart Library | Interactive charts for price, on-chain activity, supply, and valuation | [charts.secretsatoshis.com](https://charts.secretsatoshis.com/) |
